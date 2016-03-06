@@ -5,6 +5,7 @@
  */
 package ooka.ejb;
 
+import java.util.Set;
 import javax.ejb.Local;
 import ooka.model.Conference;
 
@@ -15,6 +16,6 @@ import ooka.model.Conference;
 @Local
 public interface ConferenceEJBLocal {
 
-    Conference getConference();
+    Set getConferences();
     
 }
