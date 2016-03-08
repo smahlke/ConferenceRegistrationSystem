@@ -16,9 +16,12 @@
             <p:tab title="Konferenzen">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:form>
+                        <p:commandButton value="Konferenz anlegen" actionListener="#{viewController.viewConferenceCreation}" />
 
                         <p:dataTable value="#{conferenceController.getConferences()}" var="c">
-                            
+
+
+
                             <p:column headerText="Admin-Aktionen">
                                 <p:commandButton value="Bearbeiten" actionListener="#{conferenceController.deleteConference({c.name})}" />
                                 <p:commandButton value="Löschen" actionListener="#{conferenceController.deleteConference({c.name})}" />
