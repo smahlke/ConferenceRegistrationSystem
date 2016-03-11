@@ -5,33 +5,27 @@
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Konferenzen</title>
+        <title>Konferenz-Registrierungs-System</title>
     </h:head>
     <h:body>
-
-
-        <p:growl id="msgs" showDetail="true" />
-
         <p:tabView>
             <p:tab title="Konferenzen">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:form>
-                        <p:commandButton value="Konferenz anlegen" actionListener="#{viewController.viewConferenceCreation}" />
-
+                        <p:commandButton value="Konferenz anlegen" icon="ui-icon-plus" actionListener="#{viewController.viewConferenceCreation}" />
+                        
                         <p:dataTable value="#{conferenceController.getConferences()}" var="c">
 
-
-
-                            <p:column headerText="Admin-Aktionen">
-                                <p:commandButton value="Bearbeiten" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                                <p:commandButton value="Löschen" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                            </p:column>
                             <p:column headerText="Aktionen">
-                                <p:commandButton value="Anmelden" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                                <p:commandButton value="Bewerten" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                                <p:commandButton value="Info" actionListener="#{conferenceController.deleteConference({c.name})}" />
-
+                                <p:commandButton icon="ui-icon-info" title="Info" actionListener="#{conferenceController.deleteConference({c.name})}" />
+                                <p:commandButton icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.deleteConference({c.name})}" />
+                                <p:commandButton icon="ui-icon-star" title="Bewerten" actionListener="#{conferenceController.deleteConference({c.name})}" />
                             </p:column>
+                            <p:column headerText="Administration">
+                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#{conferenceController.deleteConference({c.name})}" />
+                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#{conferenceController.deleteConference({c.name})}" />
+                            </p:column>
+
                             <p:column headerText="Name">
                                 #{c.name}
                             </p:column>
@@ -65,7 +59,7 @@
 
     </h:body>
 
-    <script src="js/jquery-2.2.1.js" type="text/javascript" />
+    <!--<script src="js/jquery-2.2.1.js" type="text/javascript" />-->
 
     <script src="js/conference.table.js" type="text/javascript" />
 </html>
