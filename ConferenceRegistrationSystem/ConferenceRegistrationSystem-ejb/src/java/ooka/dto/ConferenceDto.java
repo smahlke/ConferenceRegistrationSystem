@@ -133,6 +133,17 @@ public class ConferenceDto {
     public void setOrganizer(User organizer) {
         this.organizer = organizer;
     }
+
+    public Long getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Long entityId) {
+        this.entityId = entityId;
+    }
     
-    
+    @Override
+    public String toString() {
+        return "ConferenceDto{" + "entityId=" + entityId + ", name=" + name + ", location=" + location + ", start=" + start + ", end=" + end + ", participants=" + participants + ", maximalParticipants=" + maximalParticipants + ", paper=" + paper + ", organizer=" + organizer + '}';
+    }
 }

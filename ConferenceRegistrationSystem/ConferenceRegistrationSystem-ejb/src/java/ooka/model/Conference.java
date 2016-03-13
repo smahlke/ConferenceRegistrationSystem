@@ -1,12 +1,16 @@
 package ooka.model;
 
 import java.io.Serializable;
+import static java.util.Calendar.DATE;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,11 +22,11 @@ import javax.persistence.Id;
  *
  * @author sebastianmahlke
  */
-@Entity
+//@Entity
 public class Conference implements Serializable {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     public Conference() {
@@ -32,8 +36,8 @@ public class Conference implements Serializable {
     public Conference(String name, String location, Date startDate, Date endDate, Long maxParticipants, User organizer) {
         this.name = name;
         this.location = location;
-        this.start = startDate;
-        this.end = endDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.maximalParticipants = maxParticipants;
         this.organizer = organizer;
     }
@@ -41,6 +45,7 @@ public class Conference implements Serializable {
     /**
      * Name der Konferenz.
      */
+//    @Column(name = "name")
     private String name;
     
     /**
@@ -51,12 +56,14 @@ public class Conference implements Serializable {
     /**
      * Startdatum der Konferenz.
      */
-    private Date start;
+//    @Temporal(TemporalType.DATE)
+    private Date startDate;
     
     /**
      * Enddatum der Konferenz.
      */
-    private Date end;
+//    @Temporal(TemporalType.DATE)
+    private Date endDate;
     
     /**
      * Teilnehmer der Konferenz.
@@ -99,22 +106,24 @@ public class Conference implements Serializable {
         this.location = location;
     }
 
-    public Date getStart() {
-        return start;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnd() {
-        return end;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
+    
+    
     public Set<User> getParticipants() {
         return participants;
     }

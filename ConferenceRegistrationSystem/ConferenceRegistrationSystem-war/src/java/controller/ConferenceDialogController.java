@@ -6,48 +6,59 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import ooka.dto.ConferenceDto;
+import ooka.ejb.ConferenceEJBLocal;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author sebastianmahlke
  */
-@ManagedBean(name = "viewController")
+@ManagedBean(name = "conferenceDialogController")
 @SessionScoped
-public class ViewController {
+public class ConferenceDialogController {
+
+    @EJB
+    ConferenceEJBLocal conferenceEJB;
     
+    private ConferenceDto conference;
+
+    public ConferenceDto getConference() {
+        return conference;
+    }
+
+    public void setConference(ConferenceDto conference) {
+        this.conference = conference;
+    }
     
-    /**
-     * Views
-     */
-    public void viewConferenceCreation() {
+    public void initDialog() {
         Map<String, Object> options = new HashMap<>();
         options.put("resizable", false);
         options.put("modal", true);
-
         RequestContext.getCurrentInstance().openDialog("conference/workflow/conference", options, null);
     }
     
+    public void createConference() {
+        this.conference = new ConferenceDto();
+        this.initDialog();
+    }
+
+    public void editConference(Long idSet) {
+        this.conference = conferenceEJB.getConferenceById(idSet);
+        this.initDialog();
+    }
+
     public void closeDialog() {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
     
     public void saveDialog() {
+        conferenceEJB.saveConference(this.conference);
         RequestContext.getCurrentInstance().closeDialog(null);
-    }
-    
-    public void onConferenceSave(SelectEvent event) {
-        
-        Object obj = event.getObject();
-        System.out.println(obj);
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", obj.toString());
-         
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

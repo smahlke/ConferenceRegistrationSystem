@@ -7,7 +7,7 @@ package ooka.ejb;
 
 import java.util.Set;
 import javax.ejb.Local;
-import ooka.model.Conference;
+import ooka.dto.ConferenceDto;
 
 /**
  *
@@ -17,5 +17,11 @@ import ooka.model.Conference;
 public interface ConferenceEJBLocal {
 
     Set getConferences();
+
+    void saveConference(ConferenceDto conferenceDto);
+
+    ConferenceDto getConferenceById(final Long id);
+    
+    
     
 }

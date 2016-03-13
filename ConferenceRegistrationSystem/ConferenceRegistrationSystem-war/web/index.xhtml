@@ -6,24 +6,25 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Konferenz-Registrierungs-System</title>
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
     </h:head>
     <h:body>
         <p:tabView>
             <p:tab title="Konferenzen">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:form>
-                        <p:commandButton value="Konferenz anlegen" icon="ui-icon-plus" actionListener="#{viewController.viewConferenceCreation}" />
+                        <p:commandButton value="Konferenz anlegen" icon="ui-icon-plus" actionListener="#{conferenceDialogController.createConference}" />
                         
                         <p:dataTable value="#{conferenceController.getConferences()}" var="c">
-
+                           
                             <p:column headerText="Aktionen">
-                                <p:commandButton icon="ui-icon-info" title="Info" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                                <p:commandButton icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                                <p:commandButton icon="ui-icon-star" title="Bewerten" actionListener="#{conferenceController.deleteConference({c.name})}" />
+                                <p:commandButton icon="ui-icon-info" title="Info" actionListener="#{conferenceController.deleteConference(c.name)}"></p:commandButton>
+                                <p:commandButton icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.deleteConference(c.name)}" />
+                                <p:commandButton icon="ui-icon-star" title="Bewerten" actionListener="#{conferenceController.deleteConference(c.name)}" />
                             </p:column>
                             <p:column headerText="Administration">
-                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#{conferenceController.deleteConference({c.name})}" />
-                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#{conferenceController.deleteConference({c.name})}" />
+                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#{conferenceDialogController.editConference(c.entityId)}" />
+                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#{conferenceController.deleteConference(c.entityId)}" />
                             </p:column>
 
                             <p:column headerText="Name">
@@ -48,7 +49,40 @@
             </p:tab>
             <p:tab title="Publikationen">
                 <h:panelGrid columns="2" cellpadding="10">
+<h:form>
+                            <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#" />
+                        
+                            <p:dataTable value="#" var="c">
 
+                            <p:column headerText="Aktionen">
+                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#" />
+                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
+                                <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
+                            </p:column>
+                            
+                            <p:column headerText="Begutachtung offen">
+                                
+                            
+                            </p:column>
+
+                            <p:column headerText="Genehmigt">
+                                
+                            </p:column>
+                            <p:column headerText="Titel">
+                               
+                            </p:column>
+                            <p:column headerText="Autor/en">
+                                
+                            </p:column>
+                            <p:column headerText="Redner">
+                                
+                            </p:column>
+                                
+                            <p:column headerText="Veröffentlichkeitsdatum">
+                                
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
                 </h:panelGrid>
             </p:tab>
         </p:tabView>

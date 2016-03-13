@@ -5,6 +5,7 @@
  */
 package ooka.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  *
  * @author sebastianmahlke
  */
-public class User {
+public class User implements Serializable {
     
     /**
      * Der Vorname der Person.

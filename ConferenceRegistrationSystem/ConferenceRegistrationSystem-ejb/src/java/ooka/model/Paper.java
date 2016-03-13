@@ -5,6 +5,7 @@
  */
 package ooka.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  * 
  * @author sebastianmahlke
  */
-public class Paper {
+public class Paper implements Serializable {
     
     /**
      * Der Titel der Publikation.

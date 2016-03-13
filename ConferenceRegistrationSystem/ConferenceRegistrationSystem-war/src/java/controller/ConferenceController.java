@@ -1,21 +1,13 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import ooka.dto.ConferenceDto;
 import ooka.ejb.ConferenceEJBLocal;
-import ooka.model.Conference;
-import org.primefaces.context.RequestContext;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
