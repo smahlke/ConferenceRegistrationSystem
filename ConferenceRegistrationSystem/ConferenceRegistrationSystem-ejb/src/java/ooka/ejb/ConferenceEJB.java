@@ -5,18 +5,14 @@
  */
 package ooka.ejb;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import ooka.dto.ConferenceDto;
-import ooka.model.Message;
+import ooka.model.Conference;
 
 /**
  *
@@ -28,59 +24,73 @@ public class ConferenceEJB implements ConferenceEJBLocal {
     @PersistenceContext
     EntityManager em;
     
-//    @PersistenceUnit
-//    EntityManagerFactory emf;
-    
-    private Set<ConferenceDto> cons = new HashSet<>();
-    
-    public ConferenceEJB() {
-        
-        ConferenceDto c1 = new ConferenceDto();
-        c1.setEntityId(1L);
-        c1.setName("JavaLand");
-        c1.setLocation("Phantasialand");
-        c1.setStart(new Date());
-        c1.setEnd(new Date());
-        c1.setMaximalParticipants(200L);
-        cons.add(c1);
-        
-        ConferenceDto c2 = new ConferenceDto();
-        c2.setEntityId(2L);
-        c2.setName("Oracle Conference");
-        c2.setLocation("Nürnberg");
-        c2.setStart(new Date());
-        c2.setEnd(new Date());
-        c2.setMaximalParticipants(1500L);
-        cons.add(c2);
-    }
-
     @Override
-    public Set<ConferenceDto> getConferences() {
-        return this.cons;
+    public List<ConferenceDto> getConferences() {
+        List<Conference> conferences =  em.createQuery("SELECT c FROM Conference c").getResultList();
+        List<ConferenceDto> dtos = new ArrayList<>();
+        
+        conferences.forEach(c -> {
+            dtos.add(this.entityToDatatransferObject(c));
+        });
+        
+        return dtos;
     }
 
     @Override
     public void saveConference(ConferenceDto conferenceDto) {
-        Message m = new Message();
-        m.setSubject("yeeaahh");
-        m.setId(2L);
-        em.persist(m);
-        conferenceDto.setEntityId(3L);
-        this.cons.add(conferenceDto);
         
-        System.out.println("Conference saved: " + conferenceDto.toString());
-    }
-
-    @Override
-    public ConferenceDto getConferenceById(final Long id) {
-        //TODO: Query DB
-        for (ConferenceDto dto : this.cons ) {
-            if (dto.getEntityId().equals(id)) {
-                return dto;
-            }
+        if (conferenceDto.getEntityId() != null) {
+            em.merge(this.datatransferObjectToEntity(conferenceDto));
+        } else {
+            em.persist(this.datatransferObjectToEntity(conferenceDto));
         }
 
-        return null;
+        System.out.println("Conference saved: " + conferenceDto.toString());
+    }
+    
+    private Conference datatransferObjectToEntity(ConferenceDto dto) {
+        
+        Conference entity = new Conference();
+        
+        // Update oder Create?
+        if (dto.getEntityId() != null) {
+            entity.setId(dto.getEntityId());
+        }
+                
+        entity.setName(dto.getName());
+        entity.setLocation(dto.getLocation());
+        entity.setMaximalParticipants(dto.getMaximalParticipants());
+        entity.setOrganizer(dto.getOrganizer());
+        entity.setPaper(dto.getPaper());
+        entity.setParticipants(dto.getParticipants());
+        entity.setReviews(dto.getReviews());
+        
+        entity.setStartDate(dto.getStart());
+        entity.setEndDate(dto.getEnd());
+        
+        return entity;
+    }
+
+    private ConferenceDto entityToDatatransferObject(Conference entity) {
+        ConferenceDto dto = new ConferenceDto();
+
+        dto.setEntityId(entity.getId()); 
+        dto.setName(entity.getName());
+        dto.setLocation(entity.getLocation());
+        dto.setMaximalParticipants(entity.getMaximalParticipants());
+        dto.setOrganizer(entity.getOrganizer());
+        dto.setPaper(entity.getPaper());
+        dto.setParticipants(entity.getParticipants());
+        dto.setReviews(entity.getReviews());
+        dto.setStart(entity.getStartDate());
+        dto.setEnd(entity.getEndDate());
+
+        return dto;
+    }
+    
+    @Override
+    public ConferenceDto getConferenceById(final Long id) {
+        return this.entityToDatatransferObject(em.find(Conference.class, id));
     }
     
 }

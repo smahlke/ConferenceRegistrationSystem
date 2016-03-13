@@ -1,7 +1,6 @@
 package ooka.model;
 
 import java.io.Serializable;
-import static java.util.Calendar.DATE;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,11 +21,11 @@ import javax.persistence.TemporalType;
  *
  * @author sebastianmahlke
  */
-//@Entity
+@Entity
 public class Conference implements Serializable {
     
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     public Conference() {
@@ -45,24 +44,25 @@ public class Conference implements Serializable {
     /**
      * Name der Konferenz.
      */
-//    @Column(name = "name")
+    @Column
     private String name;
     
     /**
      * Ort der Konferenz.
      */
+    @Column
     private String location;
     
     /**
      * Startdatum der Konferenz.
      */
-//    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
     
     /**
      * Enddatum der Konferenz.
      */
-//    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     
     /**
@@ -89,6 +89,15 @@ public class Conference implements Serializable {
      * Bewertungen von Teilnehmern.
      */
     private Set<Review> reviews;
+    
+    @Override
+    public String toString() {
+        return "Conference{" + "id=" + id + ", name=" + name + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + ", participants=" + participants + ", maximalParticipants=" + maximalParticipants + ", paper=" + paper + ", organizer=" + organizer + ", reviews=" + reviews + '}';
+    }
+    
+    /**
+     * GETTER & SETTER.
+     */
 
     public String getName() {
         return name;
@@ -122,8 +131,6 @@ public class Conference implements Serializable {
         this.endDate = endDate;
     }
 
-    
-    
     public Set<User> getParticipants() {
         return participants;
     }
@@ -171,6 +178,5 @@ public class Conference implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
     
 }

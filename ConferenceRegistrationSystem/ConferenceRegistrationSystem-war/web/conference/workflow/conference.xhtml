@@ -12,10 +12,10 @@
         <h:panelGrid id="panel" columns="2" border="0" cellpadding="2" cellspacing="1">   
 
             <p:outputLabel value="Name: "></p:outputLabel><p:inputText id="name" value="#{conferenceDialogController.conference.name}"/>
-            <p:outputLabel value="Ort: "></p:outputLabel><p:inputText id="ort" value="#{conferenceDialogController.conference.location}"/> 
-            <p:outputLabel value="Startdatum: "></p:outputLabel><p:calendar id="start" locale="de" navigator="true" pattern="dd.mm.yyyy hh:mm" />
-            <p:outputLabel value="Enddatum: "></p:outputLabel><p:calendar id="end" locale="de" navigator="true" pattern="dd.mm.yyyy hh:mm" /> 
-            <p:outputLabel value="Maximale Anzahl an Teilnehmern: "></p:outputLabel><p:inputText id="maximalParticipants"/>
+            <p:outputLabel value="Ort: "></p:outputLabel><p:inputText id="ort" value="#{conferenceDialogController.conference.location}"/>
+            <p:outputLabel value="Startdatum: "></p:outputLabel><p:calendar id="start" value="#{conferenceDialogController.conference.start}" navigator="true" pattern="dd.MM.yyyy hh:mm" />
+            <p:outputLabel value="Enddatum: "></p:outputLabel><p:calendar id="end" navigator="true" value="#{conferenceDialogController.conference.end}" pattern="dd.MM.yyyy hh:mm" /> 
+            <p:outputLabel value="Maximale Anzahl an Teilnehmern: "></p:outputLabel><p:inputText value="#{conferenceDialogController.conference.maximalParticipants}" id="maximalParticipants"/>
         </h:panelGrid>
 
         <p:commandButton icon="ui-icon-check" value="Speichern" action="#{conferenceDialogController.saveDialog()}"/>

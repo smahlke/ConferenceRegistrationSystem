@@ -8,6 +8,7 @@ package ooka.dto;
 import java.util.Date;
 import java.util.Set;
 import ooka.model.Paper;
+import ooka.model.Review;
 import ooka.model.User;
 
 /**
@@ -65,11 +66,22 @@ public class ConferenceDto {
      */
     private Set<Paper> paper;
     
+    
+    private Set<Review> reviews;
+    
     /**
      * Konferenzveranstalter.
      */
     private User organizer;
 
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
+    }
+    
     public String getName() {
         return name;
     }

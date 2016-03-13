@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,7 +25,7 @@ public class ConferenceController implements Serializable {
     @EJB
     ConferenceEJBLocal conferenceEJB;
 
-    public Set<ConferenceDto> getConferences() {
+    public List<ConferenceDto> getConferences() {
         return conferenceEJB.getConferences();
     }
 

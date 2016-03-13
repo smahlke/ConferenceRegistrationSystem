@@ -5,7 +5,7 @@
  */
 package ooka.ejb;
 
-import java.util.Set;
+import java.util.List;
 import javax.ejb.Local;
 import ooka.dto.ConferenceDto;
 
@@ -16,7 +16,7 @@ import ooka.dto.ConferenceDto;
 @Local
 public interface ConferenceEJBLocal {
 
-    Set getConferences();
+    List<ConferenceDto> getConferences();
 
     void saveConference(ConferenceDto conferenceDto);
 
