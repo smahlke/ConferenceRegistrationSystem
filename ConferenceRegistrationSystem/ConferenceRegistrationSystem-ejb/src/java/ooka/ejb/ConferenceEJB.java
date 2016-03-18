@@ -26,6 +26,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
     
     @Override
     public List<ConferenceDto> getConferences() {
+        
         List<Conference> conferences =  em.createQuery("SELECT c FROM Conference c").getResultList();
         List<ConferenceDto> dtos = new ArrayList<>();
         
@@ -43,6 +44,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
             em.merge(this.datatransferObjectToEntity(conferenceDto));
         } else {
             em.persist(this.datatransferObjectToEntity(conferenceDto));
+
         }
 
         System.out.println("Conference saved: " + conferenceDto.toString());
@@ -93,4 +95,8 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return this.entityToDatatransferObject(em.find(Conference.class, id));
     }
     
+    public void deleteConferenceById(final Long id){
+        System.out.println(id);
+        em.remove(em.find(Conference.class, id));
 }
+} 

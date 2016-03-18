@@ -14,7 +14,7 @@
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:form>
                         <p:commandButton value="Konferenz anlegen" icon="ui-icon-plus" actionListener="#{conferenceDialogController.createConference}" />
-                        
+                        <p:commandButton value="Registrieren" icon="ui-icon-plus" actionListener="#{RegisterDialogController.createUser()}" />
                         <p:dataTable value="#{conferenceController.getConferences()}" var="c">
                            
                             <p:column headerText="Aktionen">

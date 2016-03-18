@@ -24,13 +24,15 @@ public class ConferenceController implements Serializable {
 
     @EJB
     ConferenceEJBLocal conferenceEJB;
+    private ConferenceDto conference;
 
     public List<ConferenceDto> getConferences() {
         return conferenceEJB.getConferences();
     }
 
-    public void deleteConference(String name) {
-        System.out.println(name);
+    public void deleteConference(Long idSet) {
+       conferenceEJB.deleteConferenceById(idSet);
+               
     }
 
 }

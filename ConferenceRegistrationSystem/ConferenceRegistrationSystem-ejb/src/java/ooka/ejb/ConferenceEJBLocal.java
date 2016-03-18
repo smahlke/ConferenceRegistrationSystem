@@ -22,6 +22,5 @@ public interface ConferenceEJBLocal {
 
     ConferenceDto getConferenceById(final Long id);
     
-    
-    
+    void deleteConferenceById(final Long id);
 }
