@@ -2,6 +2,7 @@ package ooka.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,7 +69,7 @@ public class Conference implements Serializable {
     /**
      * Teilnehmer der Konferenz.
      */
-    private Set<User> participants;
+    private Set<User> participants = new HashSet<>();
     
     /**
      * Maximale Anzahl an Teilnehmern.
@@ -177,6 +178,14 @@ public class Conference implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public void addParticipant(User user) {
+        this.participants.add(user);
+    }
+    
+    public void removeParticipant(User user) {
+        this.participants.remove(user);
     }
     
 }

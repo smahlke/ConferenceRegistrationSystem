@@ -21,6 +21,11 @@ public interface ConferenceEJBLocal {
     void saveConference(ConferenceDto conferenceDto);
 
     ConferenceDto getConferenceById(final Long id);
-    
+
     void deleteConferenceById(final Long id);
+
+    public void unsubscribe(String username, Long conferenceId);
+
+    public void subscribe(String username, Long conferenceId);
+
 }

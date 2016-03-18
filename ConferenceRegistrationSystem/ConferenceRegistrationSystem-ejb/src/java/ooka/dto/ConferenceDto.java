@@ -6,6 +6,7 @@
 package ooka.dto;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import ooka.model.Paper;
 import ooka.model.Review;
@@ -120,6 +121,11 @@ public class ConferenceDto {
 
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
+    }
+    
+    public boolean isParticipant(String username) {
+        Optional<User> user = this.participants.stream().filter(p -> p.getUsername().equals(username)).findFirst();
+        return user.isPresent();
     }
 
     public Long getMaximalParticipants() {

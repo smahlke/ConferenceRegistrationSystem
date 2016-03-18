@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:h="http://java.sun.com/jsf/html"  
       xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Konferenz-Registrierungs-System</title>
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
@@ -22,7 +23,9 @@
 
                             <p:column headerText="Aktionen">
                                 <p:commandButton icon="ui-icon-info" title="Info" actionListener="#{conferenceController.deleteConference(c.name)}"></p:commandButton>
-                                <p:commandButton icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.deleteConference(c.name)}" />
+                                    <p:commandButton rendered="#{!c.isParticipant(userDialogController.user.username)}" icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.subscribeToConference(userDialogController.user.username, c.entityId)}" />
+                                    <p:commandButton rendered="#{c.isParticipant(userDialogController.user.username)}" icon="ui-icon-arrowreturnthick-1-w" title="Abmelden" actionListener="#{conferenceController.unsubscribeToConference(userDialogController.user.username, c.entityId)}" />
+
                                 <p:commandButton icon="ui-icon-star" title="Bewerten" actionListener="#{conferenceController.deleteConference(c.name)}" />
                             </p:column>
                             <p:column headerText="Administration">

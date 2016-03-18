@@ -44,18 +44,24 @@ public class UserEJB {
     }
 
     public Boolean checkLoginData(String username, String password) {
+        User user = this.getUserByUsername(username);
+
+        if (user != null && user.getPassword().equals(password)) {
+            return true;
+        }
+        return false;
+    }
+
+    public User getUserByUsername(String username) {
         TypedQuery<User> query = em.createQuery("select u from User u where u.username = :username", User.class);
         query.setParameter("username", username);
         try {
-            User user = query.getSingleResult();
-            if (user.getPassword().equals(password)) {
-                return true;
-            }
+            return query.getSingleResult();
         } catch (NoResultException e) {
             System.out.println("User with username " + username + " does not exist!");
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
 }
