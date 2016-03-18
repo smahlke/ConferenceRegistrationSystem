@@ -1,17 +1,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
-<h:head>
-         <title>Login</title>
-    <script name="jquery/jquery.js" library="primefaces"></script>
-</h:head>
-    <h:form>
-        <h:panelGrid id="panel" columns="2" border="0" cellpadding="2" cellspacing="1">   
-        <p:outputLabel id="output1" value="Username">#{' '}</p:outputLabel><p:inputText id="username" value="#{ViewController.username}"></p:inputText>
-        <p:outputLabel id="output2" value="Password">#{' '}</p:outputLabel><p:password id="password" value="#{ViewController.password}"></p:password>
-        <p:commandButton value="Login" action="#{ViewController.login}"></p:commandButton>
-         </h:panelGrid>
-    </h:form>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Login</title>
+        <script name="jquery/jquery.js" library="primefaces"></script>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGrid id="panel" columns="2" border="0" cellpadding="2" cellspacing="1">   
+                <p:outputLabel id="output1" value="Username">#{' '}</p:outputLabel><p:inputText id="username" value="#{userDialogController.user.username}"></p:inputText>
+                <p:outputLabel id="output2" value="Password">#{' '}</p:outputLabel><p:password id="password" value="#{userDialogController.user.password}"></p:password>
+                <p:commandButton value="Login" action="#{userDialogController.login}">
+                </p:commandButton>
+            </h:panelGrid>
+        </h:form>
+    </h:body>
 </html>

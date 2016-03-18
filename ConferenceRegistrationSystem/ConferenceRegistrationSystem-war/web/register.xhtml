@@ -9,11 +9,11 @@
 </h:head>
     <h:form>
         <h:panelGrid id="panel" columns="2" border="0" cellpadding="2" cellspacing="1"> 
-            <p:outputLabel id="regFirstname" value="Vorname">#{' '}</p:outputLabel><p:inputText id="firstname" value="#{RegisterDialogController.user.firstname}"></p:inputText>
-        <p:outputLabel id="regLastname" value="Nachname">#{' '}</p:outputLabel><p:inputText id="lastname" value="#{RegisterDialogController.user.lastname}"></p:inputText>
-        <p:outputLabel id="regUsername" value="Username">#{' '}</p:outputLabel><p:inputText id="username" value="#{RegisterDialogController.user.username}"></p:inputText>
-        <p:outputLabel id="regPassword" value="Password">#{' '}</p:outputLabel><p:password id="password" value="#{RegisterDialogController.user.password}"></p:password>
-        <p:commandButton value="registrieren" action="#{RegisterDialogController.saveDialog()}"></p:commandButton>
+            <p:outputLabel id="regFirstname" value="Vorname">#{' '}</p:outputLabel><p:inputText id="firstname" value="#{userDialogController.user.firstname}"></p:inputText>
+        <p:outputLabel id="regLastname" value="Nachname">#{' '}</p:outputLabel><p:inputText id="lastname" value="#{userDialogController.user.lastname}"></p:inputText>
+        <p:outputLabel id="regUsername" value="Username">#{' '}</p:outputLabel><p:inputText id="username" value="#{userDialogController.user.username}"></p:inputText>
+        <p:outputLabel id="regPassword" value="Password">#{' '}</p:outputLabel><p:password id="password" value="#{userDialogController.user.password}"></p:password>
+        <p:commandButton value="registrieren" action="#{userDialogController.saveDialog()}"></p:commandButton>
          </h:panelGrid>
     </h:form>
 </html>
