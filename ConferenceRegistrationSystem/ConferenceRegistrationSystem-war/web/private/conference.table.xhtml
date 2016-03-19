@@ -53,62 +53,82 @@
                 </p:tab>
                 <p:tab title="Publikationen">
                     <h:panelGrid columns="2" cellpadding="10">
-                            <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#" />
-                            <br/><br/>
-                            <p:outputLabel>Meine Publikationen</p:outputLabel>
-                            <br/>
-                            <p:dataTable value="#" var="c">
+                        <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#" />
+                        <br/><br/>
+                        <p:outputLabel>Meine Publikationen</p:outputLabel>
+                        <br/>
+                        <p:dataTable value="#" var="c">
 
-                                <p:column headerText="Aktionen">
-                                    <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
-                                    <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
-                                </p:column>
+                            <p:column headerText="Aktionen">
+                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
+                                <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
+                            </p:column>
 
-                                <p:column headerText="Begutachtung offen">
+                            <p:column headerText="Begutachtung offen">
 
-                                </p:column>
+                            </p:column>
 
-                                <p:column headerText="Genehmigt">
+                            <p:column headerText="Genehmigt">
 
-                                </p:column>
-                                <p:column headerText="Titel">
+                            </p:column>
+                            <p:column headerText="Titel">
 
-                                </p:column>
-                                <p:column headerText="Autor/en">
+                            </p:column>
+                            <p:column headerText="Autor/en">
 
-                                </p:column>
-                                <p:column headerText="Redner">
+                            </p:column>
+                            <p:column headerText="Redner">
 
-                                </p:column>
+                            </p:column>
 
-                                <p:column headerText="Veröffentlichkeitsdatum">
+                            <p:column headerText="Veröffentlichkeitsdatum">
 
-                                </p:column>
-                            </p:dataTable>
-                            <br/><br/>
-                            <p:outputLabel>Publikationen zur Begutachtung</p:outputLabel>
+                            </p:column>
+                        </p:dataTable>
+                        <br/><br/>
+                        <p:outputLabel>Publikationen zur Begutachtung</p:outputLabel>
 
-                            <p:dataTable value="#" var="c">
-                                <p:column headerText="Aktionen">
-                                    <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
-                                    <p:commandButton icon="ui-icon-check" title="Genehmigen" actionListener="#" />
-                                    <p:commandButton icon="ui-icon-circle-close" title="Ablehnen" actionListener="#" />
-                                </p:column>
-                                <p:column headerText="Titel">
+                        <p:dataTable value="#" var="c">
+                            <p:column headerText="Aktionen">
+                                <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
+                                <p:commandButton icon="ui-icon-check" title="Genehmigen" actionListener="#" />
+                                <p:commandButton icon="ui-icon-circle-close" title="Ablehnen" actionListener="#" />
+                            </p:column>
+                            <p:column headerText="Titel">
 
-                                </p:column>
-                                <p:column headerText="Autor/en">
+                            </p:column>
+                            <p:column headerText="Autor/en">
 
-                                </p:column>
-                                <p:column headerText="Redner">
+                            </p:column>
+                            <p:column headerText="Redner">
 
-                                </p:column>
+                            </p:column>
 
-                                <p:column headerText="Veröffentlichkeitsdatum">
+                            <p:column headerText="Veröffentlichkeitsdatum">
 
-                                </p:column>
-                            </p:dataTable>
+                            </p:column>
+                        </p:dataTable>
                     </h:panelGrid>
+                </p:tab>
+                <p:tab title="Benutzerverwaltung" rendered="#{userController.isOrganizer(loginBean.principal.username)}">
+
+                    <p:dataTable value="#{userController.getAllUsers()}" var="u">
+
+
+                        <p:column headerText="Administration">
+                            <p:commandButton value="Organisatorrechte vergeben" title="Als Organisator benennen" actionListener="#{userController.setAsOrganizer(u.username)}" />
+                        </p:column>
+
+                        <p:column headerText="Name">
+                            #{u.lastname}, #{u.firstname}
+                        </p:column>
+                        <p:column headerText="Hat Veranstalter Rolle">
+                            <p:outputLabel rendered="#{userController.isOrganizer(u.username)}" value="Ja"></p:outputLabel>
+                            <p:outputLabel rendered="#{!userController.isOrganizer(u.username)}" value="Nein"></p:outputLabel>
+                        </p:column>
+
+                    </p:dataTable>
+
                 </p:tab>
             </p:tabView>
         </h:form>
