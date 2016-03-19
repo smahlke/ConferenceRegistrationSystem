@@ -9,7 +9,7 @@ package ooka.model;
  *
  * @author sebastianmahlke
  */
-public enum Userrole {
+public enum Group {
     
     PARTICIPANT,
     REVIEWER,

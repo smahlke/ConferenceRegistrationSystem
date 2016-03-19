@@ -6,13 +6,20 @@
 package ooka.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
@@ -32,9 +39,61 @@ public class User implements Serializable {
         this.username = username;
         this.password = password;
     }
-    
 
-    public String getFirstname() {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    /**
+     * Der Vorname der Person.
+     */
+    @Column
+    private String firstname;
+
+    /**
+     * Der Nachname der Person.
+     */
+    @Column
+    private String lastname;
+    
+    /**
+     * Die Rolles des Nutzers.
+     */
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    private Set<Group> groups = new HashSet<>();
+    
+    /**
+     * Der Benutzername des Anwenders.
+     */
+    @Id
+    @Column(unique = true)
+    private String username;
+    
+    /**
+     * Das Kennwort des Anwenders ;-)
+     */
+    @Column
+    private String password;
+    
+    /**
+     * Die Postbox-Nachrichten für diesen Nutzer.
+     */
+    private List<Message> messages;
+
+    
+    public void addUserRole(Group role) {
+        this.groups.add(role);
+    }
+    
+        public String getFirstname() {
         return firstname;
     }
 
@@ -50,12 +109,12 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
-    public Set<Userrole> getUserroles() {
-        return userroles;
+    public Set<Group> getUserroles() {
+        return groups;
     }
 
-    public void setUserroles(Set<Userrole> userroles) {
-        this.userroles = userroles;
+    public void setUserroles(Set<Group> userroles) {
+        this.groups = userroles;
     }
 
     public String getUsername() {
@@ -81,52 +140,4 @@ public class User implements Serializable {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-        /**
-     * Der Vorname der Person.
-     */
-    @Column
-    private String firstname;
-
-    
-    /**
-     * Der Nachname der Person.
-     */
-    @Column
-    private String lastname;
-    
-    /**
-     * Die Rolles des Nutzers.
-     */
-    private Set<Userrole> userroles;
-    
-    /**
-     * Der Benutzername des Anwenders.
-     */
-    @Column(unique = true)
-    private String username;
-    
-    /**
-     * Das Kennwort des Anwenders ;-)
-     */
-    @Column
-    private String password;
-    
-    /**
-     * Die Postbox-Nachrichten für diesen Nutzer.
-     */
-    private List<Message> messages;
-
 }

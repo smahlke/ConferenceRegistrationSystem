@@ -8,7 +8,7 @@ package ooka.dto;
 import java.util.List;
 import java.util.Set;
 import ooka.model.Message;
-import ooka.model.Userrole;
+import ooka.model.Group;
 
 /**
  *
@@ -43,11 +43,11 @@ public class UserDto {
         this.lastname = lastname;
     }
 
-    public Set<Userrole> getUserroles() {
+    public Set<Group> getUserroles() {
         return userroles;
     }
 
-    public void setUserroles(Set<Userrole> userroles) {
+    public void setUserroles(Set<Group> userroles) {
         this.userroles = userroles;
     }
 
@@ -91,7 +91,7 @@ public class UserDto {
     /**
      * Die Rolles des Nutzers.
      */
-    private Set<Userrole> userroles;
+    private Set<Group> userroles;
     
     /**
      * Der Benutzername des Anwenders.

@@ -8,6 +8,7 @@ package controller;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.faces.application.FacesMessage;
@@ -30,7 +31,8 @@ public class UserDialogController {
     @EJB
     UserEJB userEJB;
 
-    SessionContext ctx;
+//    @Resource
+//    SessionContext ctx;
 
     private UserDto user;
 
@@ -63,6 +65,7 @@ public class UserDialogController {
                     .getExternalContext().getSession(false);
             session.setAttribute("username", this.user.getUsername());
             this.user = this.userEJB.getUserDtoByUsername(this.user.getUsername());
+            
             this.redirect("conference.table.xhtml");
         } else {
             RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "Inkorrekt Username / Password", "Inkorrekt Username or Password"));

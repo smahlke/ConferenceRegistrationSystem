@@ -5,6 +5,12 @@
  */
 package ooka.ejb;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -13,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import ooka.dto.UserDto;
 import ooka.model.User;
+import ooka.model.Group;
 
 /**
  *
@@ -26,7 +33,27 @@ public class UserEJB {
     EntityManager em;
 
     public void saveUser(UserDto udto) {
-        em.persist(this.datatransferObjectToEntity(udto));
+        
+        User user = this.datatransferObjectToEntity(udto);
+        user.addUserRole(Group.ORGANIZER);
+        
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String text = user.getPassword();
+            md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            BigInteger bigInt = new BigInteger(1, digest);
+            String output = bigInt.toString(16);
+            
+            user.setPassword(output);
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+//            Logger.getLogger().log(Level.SEVERE, null, ex);
+               System.out.println(ex.getStackTrace());
+        }
+        
+        
+        em.persist(user);
         System.out.println("Persist");
     }
 
