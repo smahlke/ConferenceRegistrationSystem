@@ -11,9 +11,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import ooka.dto.ConferenceDto;
 import ooka.model.Conference;
+import ooka.model.Rating;
 import ooka.model.User;
 
 /**
@@ -125,4 +127,18 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         
         em.merge(conference);
     }
+    
+    @Override
+    public void rateConference(final int rating, final Long conferenceId, final Long userId) {
+    
+        Conference conference = this.em.find(Conference.class, conferenceId);
+    
+        User user = this.em.find(User.class, userId);
+        
+        conference.addRating(user, Rating.getRatingForValue(rating));
+        
+        em.merge(conference);
+    }
+    
+    
 }

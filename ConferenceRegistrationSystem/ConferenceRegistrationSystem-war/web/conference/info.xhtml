@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title><h:outputText value="#{conferenceDialogController.conference.name} - Info"></h:outputText></title>
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    </h:head>
+    <h:body>
+        <p:tabView>
+            <p:tab title="Benutzerverwaltung">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <h:form>
+                        <p:dataTable value="#{conferenceDialogController.conference.participants}" var="p">
+                            <p:column headerText="Redner">
+
+                            </p:column>
+                            <p:column headerText="Veranstalter">
+                                <p:outputLabel rendered="#{conferenceDialogController.conference.organizer.username.equals(p.username)}" value="Ja"></p:outputLabel>
+                                <p:outputLabel rendered="#{!conferenceDialogController.conference.organizer.username.equals(p.username)}" value="Nein"></p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Gutachter">
+
+                            </p:column>
+                            <p:column headerText="Name">
+                                #{p.lastname}
+                            </p:column>
+                            <p:column headerText="Vorname">
+                                #{p.firstname}
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+                </h:panelGrid>
+            </p:tab>
+            <p:tab title="Publikationen">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <h:form>
+                        <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#" />
+
+                        <p:dataTable value="#" var="c">
+
+                            <p:column headerText="Aktionen">
+                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#" />
+                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
+                                <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
+                            </p:column>
+
+                            <p:column headerText="Begutachtung offen">
+
+
+                            </p:column>
+
+                            <p:column headerText="Genehmigt">
+
+                            </p:column>
+                            <p:column headerText="Titel">
+
+                            </p:column>
+                            <p:column headerText="Autor/en">
+
+                            </p:column>
+                            <p:column headerText="Redner">
+
+                            </p:column>
+
+                            <p:column headerText="Veröffentlichkeitsdatum">
+
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </h:panelGrid>
+            </p:tab>
+        </p:tabView>
+    </h:body>
+
+    <script src="js/conference.table.js" type="text/javascript" />
+</html>
+

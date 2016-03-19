@@ -108,6 +108,14 @@ public class UserDto {
      */
     private List<Message> messages;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     @Override
     public String toString() {
         return "UserDto{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", userroles=" + userroles + ", username=" + username + ", password=" + password + ", messages=" + messages + '}';

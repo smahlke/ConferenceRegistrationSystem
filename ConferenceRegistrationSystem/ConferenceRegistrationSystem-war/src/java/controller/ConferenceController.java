@@ -27,9 +27,7 @@ public class ConferenceController implements Serializable {
 
     @EJB
     ConferenceEJBLocal conferenceEJB;
-
-    private ConferenceDto conference;
-
+    
     public List<ConferenceDto> getConferences() {
         return conferenceEJB.getConferences();
     }
@@ -46,4 +44,5 @@ public class ConferenceController implements Serializable {
     public void unsubscribeToConference(String username, Long id) {
         conferenceEJB.unsubscribe(username, id);
     }
+    
 }

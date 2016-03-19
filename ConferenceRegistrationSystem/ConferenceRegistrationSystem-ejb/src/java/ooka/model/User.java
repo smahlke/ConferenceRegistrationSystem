@@ -115,7 +115,7 @@ public class User implements Serializable {
     /**
      * Der Benutzername des Anwenders.
      */
-    @Column
+    @Column(unique = true)
     private String username;
     
     /**

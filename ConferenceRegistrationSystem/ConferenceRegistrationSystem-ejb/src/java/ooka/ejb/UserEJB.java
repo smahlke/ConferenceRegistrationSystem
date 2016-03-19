@@ -25,8 +25,6 @@ public class UserEJB {
     @PersistenceContext
     EntityManager em;
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     public void saveUser(UserDto udto) {
         em.persist(this.datatransferObjectToEntity(udto));
         System.out.println("Persist");
@@ -35,7 +33,7 @@ public class UserEJB {
     private User datatransferObjectToEntity(UserDto dto) {
 
         User entity = new User();
-
+        entity.setId(dto.getId());
         entity.setFirstname(dto.getFirstname());
         entity.setLastname(dto.getLastname());
         entity.setUsername(dto.getUsername());
@@ -51,7 +49,21 @@ public class UserEJB {
         }
         return false;
     }
+    
+    public UserDto entityToDatatransferObject(User entity) {
+        UserDto dto = new UserDto();
+        dto.setId(entity.getId());
+        dto.setFirstname(entity.getFirstname());
+        dto.setLastname(entity.getLastname());
+        dto.setUsername(entity.getUsername());
+        dto.setPassword(entity.getPassword());
+        return dto;
+    }
 
+    public UserDto getUserDtoByUsername(String username) {
+        return this.entityToDatatransferObject(this.getUserByUsername(username));
+    }
+    
     public User getUserByUsername(String username) {
         TypedQuery<User> query = em.createQuery("select u from User u where u.username = :username", User.class);
         query.setParameter("username", username);

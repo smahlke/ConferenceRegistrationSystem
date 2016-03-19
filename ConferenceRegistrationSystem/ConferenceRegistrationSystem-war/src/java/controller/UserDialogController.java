@@ -6,8 +6,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -64,6 +62,7 @@ public class UserDialogController {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                     .getExternalContext().getSession(false);
             session.setAttribute("username", this.user.getUsername());
+            this.user = this.userEJB.getUserDtoByUsername(this.user.getUsername());
             this.redirect("conference.table.xhtml");
         } else {
             RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "Inkorrekt Username / Password", "Inkorrekt Username or Password"));

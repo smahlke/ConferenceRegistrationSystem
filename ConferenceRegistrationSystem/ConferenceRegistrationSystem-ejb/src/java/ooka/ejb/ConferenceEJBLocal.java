@@ -28,4 +28,6 @@ public interface ConferenceEJBLocal {
 
     public void subscribe(String username, Long conferenceId);
 
+    void rateConference(final int rating, final Long conferenceId, final Long userId);
+
 }

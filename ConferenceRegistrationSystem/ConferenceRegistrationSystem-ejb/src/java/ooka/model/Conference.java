@@ -2,13 +2,22 @@ package ooka.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -85,6 +94,29 @@ public class Conference implements Serializable {
      * Konferenzveranstalter.
      */
     private User organizer;
+    
+    /**
+     * Bewertungen dieser Konferenz.
+     */
+    private Set<ConferenceRating> ratings = new HashSet<>();
+    
+    public void addRating(User user, Rating rating) {
+        for(ConferenceRating c : ratings) {
+            if (c.getUser().getUsername().equals(user.getUsername())) {
+                c.setRating(rating);
+                return;
+            }
+        }
+        this.ratings.add(new ConferenceRating(user, rating));
+    }
+
+    public Set<ConferenceRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<ConferenceRating> ratings) {
+        this.ratings = ratings;
+    }
     
     /**
      * Bewertungen von Teilnehmern.

@@ -75,6 +75,10 @@ public class ConferenceDto {
      */
     private User organizer;
 
+    public void addParticipant(User user) {
+        this.participants.add(user);
+    }
+    
     public Set<Review> getReviews() {
         return reviews;
     }
