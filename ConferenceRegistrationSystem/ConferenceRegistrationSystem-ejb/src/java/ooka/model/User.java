@@ -6,7 +6,6 @@
 package ooka.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +17,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +25,7 @@ import javax.persistence.Table;
  */
 
 @Entity
+@Table(name="USERS")
 public class User implements Serializable {
     
     public User(){

@@ -8,7 +8,8 @@
         <script name="jquery/jquery.js" library="primefaces"></script>
         <h:outputStylesheet library="awesome" name="css/font-awesome.css"/> 
     </h:head>
-    <h:form id="form">
+    <h:body>
+        <h:form id="form">
         <h:panelGrid id="panel" columns="2" border="0" cellpadding="2" cellspacing="1">   
 
             <p:outputLabel value="Name: "></p:outputLabel><p:inputText id="name" value="#{conferenceDialogController.conference.name}"/>
@@ -22,4 +23,5 @@
         <p:commandButton icon="ui-icon-closethick" value="Schließen" action="#{conferenceDialogController.closeDialog()}"/>
 
     </h:form>
+    </h:body>
 </html>

@@ -34,7 +34,7 @@
         <web-resource-collection>
             <web-resource-name>Protected Admin Area</web-resource-name>
             <description/>
-            <url-pattern>/conference/*</url-pattern>
+            <url-pattern>/private/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -46,6 +46,7 @@
         <auth-constraint>
             <description/>
             <role-name>ORGANIZER</role-name>
+            <role-name>PARTICIPANT</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -56,7 +57,7 @@
         <web-resource-collection>
             <web-resource-name>None Protected User Area</web-resource-name>
             <description/>
-            <url-pattern>/public/*</url-pattern>
+            <url-pattern>/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -80,5 +81,9 @@
     <security-role>
         <description>Organisator einer Konferenz</description>
         <role-name>ORGANIZER</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>PARTICIPANT</role-name>
     </security-role>
 </web-app>

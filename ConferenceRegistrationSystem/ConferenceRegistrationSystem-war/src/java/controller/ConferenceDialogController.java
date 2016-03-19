@@ -5,9 +5,12 @@
  */
 package controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -74,9 +77,7 @@ public class ConferenceDialogController {
     }
     
     public void saveDialog() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSession(false);
-        User u = userEJB.getUserByUsername((String) session.getAttribute("username"));
+        User u = userEJB.getUserByUsername(userEJB.getUsername());
         this.conference.setOrganizer(u);
         this.conference.addParticipant(u);
         conferenceEJB.saveConference(this.conference);
@@ -100,4 +101,6 @@ public class ConferenceDialogController {
         this.conference = conferenceEJB.getConferenceById(conferenceId);
         this.initDialog("conference/info");
     }
+    
+    
 }

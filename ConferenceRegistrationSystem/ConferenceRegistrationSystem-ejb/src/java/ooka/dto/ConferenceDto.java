@@ -6,6 +6,7 @@
 package ooka.dto;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import ooka.model.Paper;
@@ -55,7 +56,7 @@ public class ConferenceDto {
     /**
      * Teilnehmer der Konferenz.
      */
-    private Set<User> participants;
+    private Set<User> participants = new HashSet<>();
     
     /**
      * Maximale Anzahl an Teilnehmern.

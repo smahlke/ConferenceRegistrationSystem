@@ -8,6 +8,9 @@ package ooka.ejb;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,6 +25,7 @@ import ooka.model.User;
  *
  * @author sebastianmahlke
  */
+@DeclareRoles({"ORGANIZER", "PARTICIPANT"})
 @Stateless
 public class ConferenceEJB implements ConferenceEJBLocal {
 
@@ -31,6 +35,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
     @EJB
     UserEJB userEJB;
 
+    @PermitAll
     @Override
     public List<ConferenceDto> getConferences() {
 
@@ -44,6 +49,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return dtos;
     }
 
+    @PermitAll
     @Override
     public void saveConference(ConferenceDto conferenceDto) {
 

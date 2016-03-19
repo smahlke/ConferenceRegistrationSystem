@@ -6,6 +6,9 @@
 package ooka.ejb;
 
 import java.util.List;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Local;
 import ooka.dto.ConferenceDto;
 
@@ -13,11 +16,14 @@ import ooka.dto.ConferenceDto;
  *
  * @author sebastianmahlke
  */
+@DeclareRoles({"ORGANIZER", "PARTICIPANT"})
 @Local
 public interface ConferenceEJBLocal {
 
+    @PermitAll
     List<ConferenceDto> getConferences();
 
+    @PermitAll
     void saveConference(ConferenceDto conferenceDto);
 
     ConferenceDto getConferenceById(final Long id);

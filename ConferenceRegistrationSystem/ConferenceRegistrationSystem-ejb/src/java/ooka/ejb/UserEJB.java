@@ -9,10 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.security.Principal;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
+import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -32,11 +33,14 @@ public class UserEJB {
     @PersistenceContext
     EntityManager em;
 
+    @Resource
+    SessionContext cxt;
+
     public void saveUser(UserDto udto) {
-        
+
         User user = this.datatransferObjectToEntity(udto);
-        user.addUserRole(Group.ORGANIZER);
-        
+        user.addUserRole(Group.PARTICIPANT);
+
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             String text = user.getPassword();
@@ -44,15 +48,14 @@ public class UserEJB {
             byte[] digest = md.digest();
             BigInteger bigInt = new BigInteger(1, digest);
             String output = bigInt.toString(16);
-            
+
             user.setPassword(output);
 
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
 //            Logger.getLogger().log(Level.SEVERE, null, ex);
-               System.out.println(ex.getStackTrace());
+            System.out.println(ex.getStackTrace());
         }
-        
-        
+
         em.persist(user);
         System.out.println("Persist");
     }
@@ -76,7 +79,7 @@ public class UserEJB {
         }
         return false;
     }
-    
+
     public UserDto entityToDatatransferObject(User entity) {
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
@@ -90,7 +93,7 @@ public class UserEJB {
     public UserDto getUserDtoByUsername(String username) {
         return this.entityToDatatransferObject(this.getUserByUsername(username));
     }
-    
+
     public User getUserByUsername(String username) {
         TypedQuery<User> query = em.createQuery("select u from User u where u.username = :username", User.class);
         query.setParameter("username", username);
@@ -101,6 +104,11 @@ public class UserEJB {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String getUsername() {
+        Principal p = cxt.getCallerPrincipal();
+        return p.getName();
     }
 
 }
