@@ -37,6 +37,7 @@ public class LoginBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
         try {
+            request.logout();
             //Login per Servlet 3.0
             request.login(username, password);
             // Der Principal entspricht dem Usernamen
@@ -63,6 +64,13 @@ public class LoginBean implements Serializable {
         if (session != null) {
             session.invalidate();
         }
+                HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
+        try {
+            request.logout();
+        } catch (ServletException ex) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         fc.getApplication().getNavigationHandler().handleNavigation(fc, null, "/login.xhtml");
     }
 

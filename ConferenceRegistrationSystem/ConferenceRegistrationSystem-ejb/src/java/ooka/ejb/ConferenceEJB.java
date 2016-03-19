@@ -49,7 +49,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return dtos;
     }
 
-    @PermitAll
+    @RolesAllowed({"ORGANIZER"})
     @Override
     public void saveConference(ConferenceDto conferenceDto) {
 
@@ -103,17 +103,20 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return dto;
     }
 
+    @PermitAll    
     @Override
     public ConferenceDto getConferenceById(final Long id) {
         return this.entityToDatatransferObject(em.find(Conference.class, id));
     }
-
+    
+    @PermitAll
     @Override
     public void deleteConferenceById(final Long id) {
         System.out.println(id);
         em.remove(em.find(Conference.class, id));
     }
     
+    @PermitAll    
     @Override
     public void subscribe(String username, Long conferenceId) {
         User user = userEJB.getUserByUsername(username);
@@ -124,6 +127,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         em.merge(conference);
     }
     
+    @PermitAll    
     @Override
     public void unsubscribe(String username, Long conferenceId) {
         User user = userEJB.getUserByUsername(username);
@@ -134,6 +138,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         em.merge(conference);
     }
     
+    @PermitAll    
     @Override
     public void rateConference(final int rating, final Long conferenceId, final Long userId) {
     

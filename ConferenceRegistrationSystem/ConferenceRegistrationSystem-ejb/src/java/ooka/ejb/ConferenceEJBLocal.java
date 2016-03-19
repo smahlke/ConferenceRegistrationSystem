@@ -23,17 +23,22 @@ public interface ConferenceEJBLocal {
     @PermitAll
     List<ConferenceDto> getConferences();
 
-    @PermitAll
+    @RolesAllowed({"ORGANIZER"})
     void saveConference(ConferenceDto conferenceDto);
 
+    @PermitAll
     ConferenceDto getConferenceById(final Long id);
-
+    
+    @PermitAll
     void deleteConferenceById(final Long id);
-
+    
+    @PermitAll
     public void unsubscribe(String username, Long conferenceId);
 
+    @PermitAll    
     public void subscribe(String username, Long conferenceId);
 
+    @PermitAll    
     void rateConference(final int rating, final Long conferenceId, final Long userId);
 
 }
