@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import ooka.dto.UserDto;
 import ooka.ejb.UserEJB;
 import org.primefaces.context.RequestContext;
@@ -27,10 +27,7 @@ import org.primefaces.context.RequestContext;
 public class UserDialogController {
 
     @EJB
-    UserEJB userEJB;
-
-//    @Resource
-//    SessionContext ctx;
+    private UserEJB userEJB;
 
     private UserDto user;
 
@@ -46,35 +43,14 @@ public class UserDialogController {
     public void closeDialog() {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
-
-    public void saveDialog() {
-        userEJB.saveUser(this.user);
-        this.loginDialog();
-    }
-
+    
     public void loginDialog() {
-        this.user = new UserDto();
         this.redirect("login.xhtml");
     }
 
-    public void login() {
-        if (this.userEJB.checkLoginData(this.user.getUsername(), this.user.getPassword())) {
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSession(false);
-            session.setAttribute("username", this.user.getUsername());
-            this.user = this.userEJB.getUserDtoByUsername(this.user.getUsername());
-//            j_security_check
-            this.redirect("private/conference.table.xhtml");
-        } else {
-            RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "Inkorrekt Username / Password", "Inkorrekt Username or Password"));
-        }
-    }
-
-    public void logout() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSession(false);
-            session.setAttribute("username", null);
-        this.redirect("index.xhtml");
+    public void saveDialog() {
+        userEJB.saveUser(this.user);
+        this.redirect("login.xhtml");
     }
     
     private void redirect(String url) {

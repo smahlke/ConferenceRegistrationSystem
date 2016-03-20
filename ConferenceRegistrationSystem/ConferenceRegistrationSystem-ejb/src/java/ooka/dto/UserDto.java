@@ -5,6 +5,7 @@
  */
 package ooka.dto;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import ooka.model.Message;
@@ -75,6 +76,10 @@ public class UserDto {
         this.messages = messages;
     }
     
+    public void addUserrole(Group group) {
+        this.userroles.add(group);
+    }
+    
     
     private Long id;
         
@@ -91,7 +96,7 @@ public class UserDto {
     /**
      * Die Rolles des Nutzers.
      */
-    private Set<Group> userroles;
+    private Set<Group> userroles = new HashSet<>();
     
     /**
      * Der Benutzername des Anwenders.

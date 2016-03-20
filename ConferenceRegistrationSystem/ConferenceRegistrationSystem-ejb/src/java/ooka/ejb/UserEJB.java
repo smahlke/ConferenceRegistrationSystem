@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
@@ -34,7 +35,7 @@ import ooka.model.Group;
 @Stateless
 @LocalBean
 public class UserEJB {
-
+    
     @PersistenceContext
     EntityManager em;
 
@@ -74,6 +75,7 @@ public class UserEJB {
         entity.setLastname(dto.getLastname());
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
+        entity.setUserroles(dto.getUserroles());
         return entity;
     }
 

@@ -11,25 +11,26 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:outputPanel style="text-align: right; color: cornflowerblue;">  
-                <h:commandLink value="Logout" action="#{loginBean.logout}"></h:commandLink>&nbsp;<h:outputText value="User: #{loginBean.principal.username}" />  
+            <p:outputPanel style="margin-bottom: 40px;">  
+                <p:outputLabel style="text-align: left; color: black" value="Eingeloggter Benutzer: #{loginBean.principal.username}" />
+                <p:commandButton style="right: 0px;  position: absolute; color: black" value="Logout" action="#{loginBean.logout}"></p:commandButton>
             </p:outputPanel>
             <p:tabView>
                 <p:tab title="Konferenzen">
                     <h:panelGrid columns="2" cellpadding="10">
-                        <p:commandButton value="Konferenz anlegen" icon="ui-icon-plus" actionListener="#{conferenceDialogController.createConference}" />
+                        <p:commandButton value="Konferenz anlegen" icon="ui-icon-plus" disabled="#{!userController.isOrganizer(loginBean.principal.username)}" actionListener="#{conferenceDialogController.createConference}"></p:commandButton>
                         <br/>
-                        <p:dataTable value="#{conferenceController.getConferences()}" var="c">
+                        <p:dataTable id="conferences" value="#{conferenceController.getConferences()}" var="c">
 
                             <p:column headerText="Aktionen">
-                                <p:commandButton icon="ui-icon-info" title="Info" actionListener="#{conferenceDialogController.showInfo(c.entityId)}"></p:commandButton>
-                                <p:commandButton rendered="#{!c.isParticipant(userDialogController.user.username)}" icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.subscribeToConference(userDialogController.user.username, c.entityId)}" />
-                                <p:commandButton rendered="#{c.isParticipant(userDialogController.user.username)}" icon="ui-icon-arrowreturnthick-1-w" title="Abmelden" actionListener="#{conferenceController.unsubscribeToConference(userDialogController.user.username, c.entityId)}" />
-                                <p:commandButton icon="ui-icon-star" title="Bewerten" actionListener="#{conferenceDialogController.rateDialog(c.entityId)}" />
+                                <p:commandButton disabled="#{!userController.isOrganizer(loginBean.principal.username)}" icon="ui-icon-info" title="Info" actionListener="#{conferenceDialogController.showInfo(c.entityId)}"></p:commandButton>
+                                <p:commandButton rendered="#{!c.isParticipant(loginBean.principal.username)}" icon="ui-icon-arrowreturnthick-1-e" title="Anmelden" actionListener="#{conferenceController.subscribeToConference(userDialogController.user.username, c.entityId)}" />
+                                <p:commandButton rendered="#{c.isParticipant(loginBean.principal.username)}" icon="ui-icon-arrowreturnthick-1-w" title="Abmelden" actionListener="#{conferenceController.unsubscribeToConference(userDialogController.user.username, c.entityId)}" />
+                                <p:commandButton disabled="#{!(c.isParticipant(loginBean.principal.username) and c.finished)}" icon="ui-icon-star" title="Bewerten" actionListener="#{conferenceDialogController.rateDialog(c.entityId)}" />
                             </p:column>
                             <p:column headerText="Administration">
-                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#{conferenceDialogController.editConference(c.entityId)}" />
-                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#{conferenceController.deleteConference(c.entityId)}" />
+                                <p:commandButton disabled="#{!userController.isOrganizer(loginBean.principal.username)}" icon="ui-icon-pencil" title="Bearbeiten" actionListener="#{conferenceDialogController.editConference(c.entityId)}" />
+                                <p:commandButton disabled="#{!userController.isOrganizer(loginBean.principal.username)}" icon="ui-icon-trash" title="Löschen" actionListener="#{conferenceController.deleteConference(c.entityId)}" />
                             </p:column>
 
                             <p:column headerText="Name">
@@ -110,9 +111,9 @@
                         </p:dataTable>
                     </h:panelGrid>
                 </p:tab>
-                <p:tab title="Benutzerverwaltung" rendered="#{userController.isOrganizer(loginBean.principal.username)}">
+                <p:tab title="Benutzerverwaltung" disabled="#{!userController.isOrganizer(loginBean.principal.username)}">
 
-                    <p:dataTable value="#{userController.getAllUsers()}" var="u">
+                    <p:dataTable rendered="#{userController.isOrganizer(loginBean.principal.username)}" value="#{userController.getAllUsers()}" var="u">
 
 
                         <p:column headerText="Administration">

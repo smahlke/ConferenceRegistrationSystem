@@ -29,7 +29,7 @@ public interface ConferenceEJBLocal {
     @PermitAll
     ConferenceDto getConferenceById(final Long id);
     
-    @PermitAll
+    @RolesAllowed({"ORGANIZER"})
     void deleteConferenceById(final Long id);
     
     @PermitAll
@@ -39,6 +39,6 @@ public interface ConferenceEJBLocal {
     public void subscribe(String username, Long conferenceId);
 
     @PermitAll    
-    void rateConference(final int rating, final Long conferenceId, final Long userId);
+    void addConferenceRating(final int rating, final Long conferenceId, final String username);
 
 }

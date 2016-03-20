@@ -5,11 +5,11 @@
  */
 package controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +18,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import ooka.dto.UserDto;
 import ooka.ejb.UserEJB;
+import ooka.model.Group;
 import ooka.model.User;
 
 @ManagedBean
@@ -28,6 +30,20 @@ public class LoginBean implements Serializable {
     @EJB
     UserEJB userEJB;
 
+    @PostConstruct
+    public void persistOrganizer() {
+        User admin = userEJB.getUserByUsername("admin");
+        if (admin == null) {
+            UserDto organizer = new UserDto();
+            organizer.setFirstname("admin");
+            organizer.setLastname("admin");
+            organizer.setUsername("admin");
+            organizer.setPassword("admin");
+            organizer.addUserrole(Group.ORGANIZER);
+            userEJB.saveUser(organizer);
+        }
+    }
+    
     private User principal = null;
 
     private String username;
@@ -38,9 +54,7 @@ public class LoginBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
         try {
             request.logout();
-            //Login per Servlet 3.0
             request.login(username, password);
-            // Der Principal entspricht dem Usernamen
             Principal p = request.getUserPrincipal();
 
             principal = userEJB.getUserByUsername(p.getName());
@@ -51,11 +65,6 @@ public class LoginBean implements Serializable {
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An Error Occured: Login failed", null));
             e.printStackTrace();
         }
-//        try {
-//            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-//        } catch (IOException ex) {
-//            Logger.getLogger(UserDialogController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
     }
 
     public void logout() {
@@ -71,7 +80,7 @@ public class LoginBean implements Serializable {
             Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        fc.getApplication().getNavigationHandler().handleNavigation(fc, null, "/login.xhtml");
+        fc.getApplication().getNavigationHandler().handleNavigation(fc, null, "/index.xhtml");
     }
 
     public String getUsername() {
