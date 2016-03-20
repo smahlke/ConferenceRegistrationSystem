@@ -53,11 +53,12 @@
                 </p:tab>
                 <p:tab title="Publikationen">
                     <h:panelGrid columns="2" cellpadding="10">
-                            <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#" />
+                            <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#{paperDialogController.createPaper()}" />
+                       
                             <br/><br/>
                             <p:outputLabel>Meine Publikationen</p:outputLabel>
                             <br/>
-                            <p:dataTable value="#" var="c">
+                            <p:dataTable value="#{paperController.getMyPapers(loginBean.username)}" var="mp">
 
                                 <p:column headerText="Aktionen">
                                     <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
@@ -67,27 +68,26 @@
                                 <p:column headerText="Begutachtung offen">
 
                                 </p:column>
-
+                                
                                 <p:column headerText="Genehmigt">
-
+                                    
                                 </p:column>
                                 <p:column headerText="Titel">
-
+                                     #{mp.title} 
                                 </p:column>
                                 <p:column headerText="Autor/en">
-
+                                    #{mp.autors}
                                 </p:column>
                                 <p:column headerText="Redner">
-
+                                    #{mp.speaker.username}
                                 </p:column>
-
                                 <p:column headerText="Veröffentlichkeitsdatum">
-
+                                     #{mp.publicationDate}
                                 </p:column>
                             </p:dataTable>
                             <br/><br/>
                             <p:outputLabel>Publikationen zur Begutachtung</p:outputLabel>
-
+                            <br/>
                             <p:dataTable value="#" var="c">
                                 <p:column headerText="Aktionen">
                                     <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
