@@ -26,22 +26,21 @@ import javax.persistence.TemporalType;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author sebastianmahlke
  */
 @Entity
 public class Conference implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     public Conference() {
-        
+
     }
-    
+
     public Conference(String name, String location, Date startDate, Date endDate, Long maxParticipants, User organizer) {
         this.name = name;
         this.location = location;
@@ -50,58 +49,58 @@ public class Conference implements Serializable {
         this.maximalParticipants = maxParticipants;
         this.organizer = organizer;
     }
-    
+
     /**
      * Name der Konferenz.
      */
     @Column
     private String name;
-    
+
     /**
      * Ort der Konferenz.
      */
     @Column
     private String location;
-    
+
     /**
      * Startdatum der Konferenz.
      */
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
-    
+
     /**
      * Enddatum der Konferenz.
      */
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    
+
     /**
      * Teilnehmer der Konferenz.
      */
     private Set<User> participants = new HashSet<>();
-    
+
     /**
      * Maximale Anzahl an Teilnehmern.
      */
     private Long maximalParticipants;
-    
+
     /**
      * Eingereichte Publikationen.
      */
     private Set<Paper> paper;
-    
+
     /**
      * Konferenzveranstalter.
      */
     private User organizer;
-    
+
     /**
      * Bewertungen dieser Konferenz.
      */
     private Set<ConferenceRating> ratings = new HashSet<>();
-    
+
     public void addRating(User user, Rating rating) {
-        for(ConferenceRating c : ratings) {
+        for (ConferenceRating c : ratings) {
             if (c.getUser().getUsername().equals(user.getUsername())) {
                 c.setRating(rating);
                 return;
@@ -117,21 +116,20 @@ public class Conference implements Serializable {
     public void setRatings(Set<ConferenceRating> ratings) {
         this.ratings = ratings;
     }
-    
+
     /**
      * Bewertungen von Teilnehmern.
      */
     private Set<Review> reviews;
-    
+
     @Override
     public String toString() {
         return "Conference{" + "id=" + id + ", name=" + name + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + ", participants=" + participants + ", maximalParticipants=" + maximalParticipants + ", paper=" + paper + ", organizer=" + organizer + ", reviews=" + reviews + '}';
     }
-    
+
     /**
      * GETTER & SETTER.
      */
-
     public String getName() {
         return name;
     }
@@ -211,13 +209,26 @@ public class Conference implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public void addParticipant(User user) {
         this.participants.add(user);
     }
-    
+
     public void removeParticipant(User user) {
         this.participants.remove(user);
     }
-    
+
+    public double calculateRatings() {
+        
+        if (this.ratings.size() > 0) {
+            double sum = 0L;
+        for (ConferenceRating rating : this.ratings) {
+            sum += rating.getRating().getValue();
+        }
+
+        return sum / this.ratings.size();
+        }
+        return 5;
+    }
+
 }

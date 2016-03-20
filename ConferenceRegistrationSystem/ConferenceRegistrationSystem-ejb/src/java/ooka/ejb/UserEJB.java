@@ -10,7 +10,12 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.ejb.SessionContext;
@@ -26,16 +31,18 @@ import ooka.model.Group;
  *
  * @author Admin
  */
+@DeclareRoles({"ORGANIZER", "PARTICIPANT"})
 @Stateless
 @LocalBean
 public class UserEJB {
-
+    
     @PersistenceContext
     EntityManager em;
 
     @Resource
     SessionContext cxt;
 
+    @PermitAll
     public void saveUser(UserDto udto) {
 
         User user = this.datatransferObjectToEntity(udto);
@@ -68,9 +75,11 @@ public class UserEJB {
         entity.setLastname(dto.getLastname());
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
+        entity.setUserroles(dto.getUserroles());
         return entity;
     }
 
+    @PermitAll
     public Boolean checkLoginData(String username, String password) {
         User user = this.getUserByUsername(username);
 
@@ -80,7 +89,7 @@ public class UserEJB {
         return false;
     }
 
-    public UserDto entityToDatatransferObject(User entity) {
+    private UserDto entityToDatatransferObject(User entity) {
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
         dto.setFirstname(entity.getFirstname());
@@ -90,10 +99,12 @@ public class UserEJB {
         return dto;
     }
 
+    @PermitAll
     public UserDto getUserDtoByUsername(String username) {
         return this.entityToDatatransferObject(this.getUserByUsername(username));
     }
 
+    @PermitAll
     public User getUserByUsername(String username) {
         TypedQuery<User> query = em.createQuery("select u from User u where u.username = :username", User.class);
         query.setParameter("username", username);
@@ -106,9 +117,32 @@ public class UserEJB {
         return null;
     }
 
+    @PermitAll
     public String getUsername() {
         Principal p = cxt.getCallerPrincipal();
         return p.getName();
+    }
+
+    @RolesAllowed({"ORGANIZER"})
+    public List<User> getUsers() {
+        List<User> users = this.em.createQuery("SELECT u FROM User u").getResultList();
+        return users;
+    }
+
+    @RolesAllowed({"ORGANIZER"})
+    public void addUserroleOrganizer(String username) {
+
+        User u = this.em.find(User.class, username);
+
+        u.addUserRole(Group.ORGANIZER);
+
+        this.em.merge(u);
+    }
+
+    @PermitAll
+    public boolean hasRoleOrganizer(String username) {
+        User u = this.em.find(User.class, username);
+        return u.getUserroles().contains(Group.ORGANIZER);
     }
 
 }

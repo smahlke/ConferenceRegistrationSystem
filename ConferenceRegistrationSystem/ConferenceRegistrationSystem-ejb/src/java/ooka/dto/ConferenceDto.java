@@ -7,7 +7,6 @@ package ooka.dto;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import ooka.model.Paper;
 import ooka.model.Review;
@@ -29,6 +28,10 @@ public class ConferenceDto {
         this.start = startDate;
         this.end = endDate;
         this.maximalParticipants = maxParticipants;
+    }
+    
+    public boolean isFinished() {
+        return this.end.before(new Date());
     }
     
     private Long entityId;
@@ -129,8 +132,12 @@ public class ConferenceDto {
     }
     
     public boolean isParticipant(String username) {
-        Optional<User> user = this.participants.stream().filter(p -> p.getUsername().equals(username)).findFirst();
-        return user.isPresent();
+        for (User u : this.participants) {
+            if (u.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Long getMaximalParticipants() {

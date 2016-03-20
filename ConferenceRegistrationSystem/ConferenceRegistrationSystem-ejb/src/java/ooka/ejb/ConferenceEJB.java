@@ -6,7 +6,6 @@
 package ooka.ejb;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
@@ -14,8 +13,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import ooka.dto.ConferenceDto;
 import ooka.model.Conference;
 import ooka.model.Rating;
@@ -31,7 +30,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
 
     @PersistenceContext
     EntityManager em;
-    
+
     @EJB
     UserEJB userEJB;
 
@@ -49,18 +48,44 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return dtos;
     }
 
-    @PermitAll
+    @RolesAllowed({"ORGANIZER"})
     @Override
     public void saveConference(ConferenceDto conferenceDto) {
 
         if (conferenceDto.getEntityId() != null) {
             em.merge(this.datatransferObjectToEntity(conferenceDto));
+            System.out.println("Conference updated: " + conferenceDto.toString());
         } else {
-            em.persist(this.datatransferObjectToEntity(conferenceDto));
+            double organizerRating = this.calculateOrganizerRating(userEJB.getUsername());
+            if (conferenceDto.getMaximalParticipants() > 200) {
+                if (organizerRating > 3) {
+                    em.persist(this.datatransferObjectToEntity(conferenceDto));
+                    System.out.println("Conference saved: " + conferenceDto.toString());
+                } else {
+                    System.out.println("Die Bewertungen des Organisators erlauben leider nicht die Erstellung großer Konferenzen.");
+                }
+            } else {
+                em.persist(this.datatransferObjectToEntity(conferenceDto));
+                System.out.println("Conference saved: " + conferenceDto.toString());
+            }
 
         }
 
-        System.out.println("Conference saved: " + conferenceDto.toString());
+    }
+
+    private double calculateOrganizerRating(String username) {
+        Query query = this.em.createQuery("select c from Conference c where c.organizer.username = :username", Conference.class).setParameter("username", username);
+        List<Conference> conferences = query.getResultList();
+        if (!conferences.isEmpty()) {
+            double sum = 0L;
+            for (Conference c : conferences) {
+
+                sum += c.calculateRatings();
+            }
+
+            return sum / conferences.size();
+        }
+        return 5;
     }
 
     private Conference datatransferObjectToEntity(ConferenceDto dto) {
@@ -103,48 +128,52 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return dto;
     }
 
+    @PermitAll
     @Override
     public ConferenceDto getConferenceById(final Long id) {
         return this.entityToDatatransferObject(em.find(Conference.class, id));
     }
 
+    @RolesAllowed({"ORGANIZER"})
     @Override
     public void deleteConferenceById(final Long id) {
         System.out.println(id);
         em.remove(em.find(Conference.class, id));
     }
-    
+
+    @PermitAll
     @Override
     public void subscribe(String username, Long conferenceId) {
         User user = userEJB.getUserByUsername(username);
-        
+
         Conference conference = em.find(Conference.class, conferenceId);
         conference.addParticipant(user);
-        
+
         em.merge(conference);
     }
-    
+
+    @PermitAll
     @Override
     public void unsubscribe(String username, Long conferenceId) {
         User user = userEJB.getUserByUsername(username);
-        
+
         Conference conference = em.find(Conference.class, conferenceId);
         conference.removeParticipant(user);
-        
+
         em.merge(conference);
     }
-    
+
+    @PermitAll
     @Override
-    public void rateConference(final int rating, final Long conferenceId, final Long userId) {
-    
+    public void addConferenceRating(final int rating, final Long conferenceId, final String username) {
+
         Conference conference = this.em.find(Conference.class, conferenceId);
-    
-        User user = this.em.find(User.class, userId);
-        
+
+        User user = this.em.find(User.class, username);
+
         conference.addRating(user, Rating.getRatingForValue(rating));
-        
+
         em.merge(conference);
     }
-    
-    
+
 }

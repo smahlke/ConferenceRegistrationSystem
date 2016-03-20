@@ -39,4 +39,8 @@ public enum Rating {
         return null;
     }
     
+    public int getValue() {
+        return this.value;
+    }
+    
 }

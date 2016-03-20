@@ -9,8 +9,8 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:rating value="#{conferenceDialogController.rating}" />
-            <p:commandButton value="Bewerten" action="#{conferenceDialogController.rate(userDialogController.user.id)}"/>
+            <p:rating value="#{conferenceDialogController.rating}" /><br/><br/>
+            <p:commandButton value="Bewerten" action="#{conferenceDialogController.rate(loginBean.principal.username)}"/>
         </h:form>
     </h:body>
 </html>
