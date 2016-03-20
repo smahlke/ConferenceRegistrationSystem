@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+         <title>Publikation einreichen</title>
+    <script name="jquery/jquery.js" library="primefaces"></script>
+</h:head>
+    <h:form>
+        <h:panelGrid id="panel" columns="2" border="0" cellpadding="2" cellspacing="1"> 
+            <p:outputLabel id="title" value="titel:">#{' '}</p:outputLabel><p:inputText value="#{paperDialogController.paper.title}"></p:inputText>
+            <p:outputLabel id="autors" value="autoren:">#{' '}</p:outputLabel><p:inputText value="#{paperDialogController.paper.autors}"></p:inputText>                 
+            <p:outputLabel id="date" value="Veröffentlichkeitsdatum:">#{' '}</p:outputLabel><p:calendar value="#{paperDialogController.paper.publicationDate}" navigator="true" pattern="dd.MM.yyyy hh:mm"/>
+            <p:commandButton value="einreichen" action="#{paperDialogController.savePaper()}"></p:commandButton>
+         </h:panelGrid>
+    </h:form>
+</html>
