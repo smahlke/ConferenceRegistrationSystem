@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -127,6 +128,15 @@ public class UserEJB {
     public List<User> getUsers() {
         List<User> users = this.em.createQuery("SELECT u FROM User u").getResultList();
         return users;
+    }
+    
+    public List<UserDto> getUserDtos() {
+        List<User> users = this.getUsers();
+        List<UserDto> uDtos= new ArrayList<>();
+        users.forEach(u->{
+        uDtos.add(this.entityToDatatransferObject(u));
+        });
+        return uDtos;
     }
 
     @RolesAllowed({"ORGANIZER"})

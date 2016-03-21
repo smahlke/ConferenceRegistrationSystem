@@ -8,12 +8,14 @@
     <h:head>
         <title><h:outputText value="#{conferenceDialogController.conference.name} - Info"></h:outputText></title>
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
+         <script name="jquery/jquery.js" library="primefaces"></script>
     </h:head>
     <h:body>
+        <h:form>
         <p:tabView>
             <p:tab title="Benutzerverwaltung">
                 <h:panelGrid columns="2" cellpadding="10">
-                    <h:form>
+                    
                         <p:dataTable value="#{conferenceDialogController.conference.participants}" var="p">
                             <p:column headerText="Redner">
 
@@ -33,14 +35,23 @@
                             </p:column>
 
                         </p:dataTable>
-                    </h:form>
+                   
                 </h:panelGrid>
             </p:tab>
             <p:tab title="Publikationen">
                 <h:panelGrid columns="2" cellpadding="10">
-                    <h:form>
+              
                         <p:dataTable value="#{paperDialogController.getPaperByConference(conferenceDialogController.conference.entityId)}" var="p">
-
+                            <p:column headerText="Aktionen">
+                                <p:selectOneMenu id="selectedUser" value="#{paperDialogController.selectedUser}" style="width:150px">
+                                         <f:selectItem itemLabel="Wähle Gutachter" itemValue="" noSelectionOption="true" />
+                                         <f:selectItems value="#{paperDialogController.usersInConference}" />    
+                                         <p:ajax />
+                                </p:selectOneMenu>
+                                <p:commandButton value="setze gutachter" immediate="true" actionListener="#{paperDialogController.setReviewer(p.id)}" />
+                                
+                     
+                            </p:column>
 <!--                            <p:column headerText="Aktionen">
                                 <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
                             </p:column>-->
@@ -54,17 +65,18 @@
                                 #{p.autors}
                             </p:column>
                             <p:column headerText="Redner">
-                                #{p.speaker}
+                                #{p.speaker.username}
                             </p:column>
 
                             <p:column headerText="Veröffentlichkeitsdatum">
                                 #{p.publicationDate}
                             </p:column>
                         </p:dataTable>
-                    </h:form>
+                    
                 </h:panelGrid>
             </p:tab>
         </p:tabView>
+        </h:form>
     </h:body>
 
     <script src="js/conference.table.js" type="text/javascript" />

@@ -6,6 +6,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import ooka.dto.PaperDto;
+import ooka.dto.UserDto;
 import ooka.ejb.PaperEJB;
 import ooka.ejb.PaperEJBLocal;
 import ooka.ejb.UserEJB;
@@ -29,7 +32,7 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean(name = "paperDialogController")
 @SessionScoped
-public class PaperDialogController {
+public class PaperDialogController implements Serializable{
     
     @EJB
     PaperEJBLocal paperEJB;
@@ -38,6 +41,9 @@ public class PaperDialogController {
     UserEJB userEJB;
     
     private PaperDto paper;
+    
+    private Map<String,String> usersInConference;
+    String selectedUser;
 
     public PaperDto getPaper() {
         return paper;
@@ -67,4 +73,33 @@ public class PaperDialogController {
     public List<PaperDto> getPaperByConference(Long conferenceId) {
         return this.paperEJB.getPaperDTOsByConference(conferenceId);
     }
+
+    public String getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(String selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+    
+
+
+
+    public void setReviewer(final Long paperId){
+       paperEJB.setReviewer(paperId, this.selectedUser); 
+    }
+        public Map<String,String> getUsersInConference(){
+            if(usersInConference==null){
+                
+                List <UserDto> users= userEJB.getUserDtos();
+                
+                 usersInConference = new HashMap<>();
+                     for(UserDto u : users){
+                                 usersInConference.put(u.getUsername(),u.getUsername());
+                     }
+                        
+                
+            }
+            return usersInConference;
+        }
 }

@@ -35,4 +35,10 @@ public interface PaperEJBLocal {
      
     @PermitAll
     public List<PaperDto> getPaperDTOsByConference(Long conferenceId);
+    
+    @PermitAll
+     public void setReviewer(final Long paperId, String username);
+     
+     @PermitAll
+     public List <PaperDto> getReviewPapers(String username);
 }

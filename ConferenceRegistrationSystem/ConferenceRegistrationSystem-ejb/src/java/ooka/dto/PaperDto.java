@@ -58,6 +58,8 @@ public class PaperDto {
      */
     private Review review;
     
+    private User reviewer;
+    
     /**
      * Die Publikation.
      */
@@ -139,6 +141,14 @@ public class PaperDto {
 
     public void setConferenceId(Long conferenceId) {
         this.conferenceId = conferenceId;
+    }
+
+    public User getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(User reviewer) {
+        this.reviewer = reviewer;
     }
     
     

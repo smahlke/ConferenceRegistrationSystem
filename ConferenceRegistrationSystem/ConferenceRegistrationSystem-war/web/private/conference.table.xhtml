@@ -87,17 +87,17 @@
                             <br/><br/>
                             <p:outputLabel>Publikationen zur Begutachtung</p:outputLabel>
                             <br/>
-                            <p:dataTable value="#" var="c">
+                            <p:dataTable value="#{paperController.getReviewPapers(loginBean.username)}" var="mpr">
                                 <p:column headerText="Aktionen">
                                     <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
                                     <p:commandButton icon="ui-icon-check" title="Genehmigen" actionListener="#" />
                                     <p:commandButton icon="ui-icon-circle-close" title="Ablehnen" actionListener="#" />
                                 </p:column>
                                 <p:column headerText="Titel">
-
+                                    #{mpr.title} 
                             </p:column>
                             <p:column headerText="Autor/en">
-
+                                    
                             </p:column>
                             <p:column headerText="Redner">
 

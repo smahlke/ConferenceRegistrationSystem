@@ -33,12 +33,9 @@ public class PaperController {
         return paperEjb.getMyPapers(username);
     }
 
-    public List <PaperDto> getReviewPapers() {
-        
-        return null;
+    public List<PaperDto> getReviewPapers(String username) {       
+        return this.paperEjb.getReviewPapers(username);
     }
     
-      
-
 
 }

@@ -52,6 +52,8 @@ public class Paper implements Serializable {
      */
     private Review review = Review.NOT_ASSIGNED;
     
+    private User reviewer;
+    
     /**
      * Die Publikation.
      */
@@ -136,6 +138,16 @@ public class Paper implements Serializable {
         this.submitDate = submiteDate;
     }
 
+    public User getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(User reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Paper{" + "id=" + id + ", title=" + title + ", speaker=" + speaker + ", autors=" + autors + ", publicationDate=" + publicationDate + ", review=" + review + ", data=" + data + '}';

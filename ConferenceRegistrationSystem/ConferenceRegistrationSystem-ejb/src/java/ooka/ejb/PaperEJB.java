@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 import ooka.dto.PaperDto;
 import ooka.model.Conference;
 import ooka.model.Paper;
+import ooka.model.Review;
 
 /**
  *
@@ -30,14 +31,20 @@ public class PaperEJB implements PaperEJBLocal {
     
     @EJB
     ConferenceEJBLocal conferenceEJB;
-   
+    
+    @EJB
+    UserEJB  userEJB;
+    
+    
     @PermitAll
+    @Override
     public List<PaperDto> getMyPapers(String username){
         List<Paper> papers;
         TypedQuery<Paper> query = em.createQuery("select p from Paper p where p.speaker.username = :username", Paper.class);
         query.setParameter("username", username);
         papers = query.getResultList();       
         List<PaperDto> dtos = new ArrayList<>();
+
         papers.forEach(p->{
           dtos.add(this.entityToDatatransferObject(p));
         });
@@ -71,8 +78,7 @@ public class PaperEJB implements PaperEJBLocal {
     @PermitAll
     @Override
     public void passPaper(final long paperId) {
-        
-        
+          
     }
     
     private Paper datatransferObjectToEntity(PaperDto dto) {     
@@ -101,18 +107,41 @@ public class PaperEJB implements PaperEJBLocal {
         return dto;
     }
     
-    @PermitAll
+@PermitAll
+@Override
     public List<PaperDto> getPaperDTOsByConference(Long conferenceId) {
         Query query = this.em.createQuery("SELECT c.papers FROM Conference c WHERE c.id = :id").setParameter("id", conferenceId);
-        
-        List<Paper> entities = query.getResultList();
         List<PaperDto> dtos = new ArrayList<>();
-        
-        for (Paper p : entities) {
-            dtos.add(this.entityToDatatransferObject(p));
-        }
+
+        List<Paper> entities = query.getResultList();
+
+            for (Paper p : entities) {
+                if (p!=null)
+                dtos.add(this.entityToDatatransferObject(p));
+            }
         
         return dtos;
     }
     
+    public void setReviewer(final Long paperId, String username){
+        Paper p= this.em.find(Paper.class, paperId);   
+        p.setReviewer(userEJB.getUserByUsername(username));
+        p.setReview(Review.IN_PROCESS);
+        em.merge(p);  
+    }
+    
+    public List<PaperDto> getReviewPapers(String username){
+        Query query = this.em.createQuery("SELECT p FROM Paper p WHERE p.reviewer.username = :username").setParameter("username", username);
+        List<Paper> papers = query.getResultList();
+        List<PaperDto> dtos = new ArrayList<>();
+        
+        
+                for (Paper p : papers) {
+                if (p!=null)
+                dtos.add(this.entityToDatatransferObject(p));
+            }
+
+        
+        return dtos;
+    }
 }
