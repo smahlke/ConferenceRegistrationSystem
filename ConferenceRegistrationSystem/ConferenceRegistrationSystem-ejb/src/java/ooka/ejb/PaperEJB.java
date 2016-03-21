@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import ooka.dto.ConferenceDto;
 import ooka.dto.PaperDto;
 import ooka.model.Conference;
 import ooka.model.Paper;
@@ -67,18 +68,39 @@ public class PaperEJB implements PaperEJBLocal {
     @PermitAll
     @Override
     public void deletePaper(final long paperId) {
-        em.remove(em.find(Paper.class, paperId));
+        List<Conference> conferences =conferenceEJB.getConferenceEntities();
+        Paper paper= em.find(Paper.class, paperId);
+        
+                for (Conference dto : conferences) {
+             
+                    for (Paper p : dto.getPaper()) {
+             
+                       if( p.getId().equals(paperId)){
+                          dto.getPaper().remove(paper);
+                          em.merge(dto);
+                       }
+                    }
+            }  
+
+        em.remove(paper);
     }
 
     @PermitAll
     @Override
     public void rejectPaper(final long paperId) {
+         Paper p=em.find(Paper.class, paperId);
+         p.setReview(Review.REJECT);
+         em.merge(p);
     }
 
     @PermitAll
     @Override
     public void passPaper(final long paperId) {
-          
+ 
+         Paper p=em.find(Paper.class, paperId);
+         p.setReview(Review.PASS);
+         em.merge(p);
+         
     }
     
     private Paper datatransferObjectToEntity(PaperDto dto) {     

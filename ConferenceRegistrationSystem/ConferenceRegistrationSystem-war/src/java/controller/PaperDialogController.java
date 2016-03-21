@@ -102,4 +102,12 @@ public class PaperDialogController implements Serializable{
             }
             return usersInConference;
         }
+        
+         public void rejectPaper(final long paperId) {
+             this.paperEJB.rejectPaper(paperId);
+         }
+         
+          public void passPaper(final long paperId) {
+               this.paperEJB.passPaper(paperId);
+          }
 }

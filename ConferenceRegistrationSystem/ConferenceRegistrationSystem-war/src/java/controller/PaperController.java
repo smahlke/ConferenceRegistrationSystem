@@ -25,6 +25,9 @@ public class PaperController {
 
     @EJB
     PaperEJBLocal paperEjb;
+    
+    
+    
     public void deletePaper(final long paperId) {
         paperEjb.deletePaper(paperId);
     }
@@ -37,5 +40,9 @@ public class PaperController {
         return this.paperEjb.getReviewPapers(username);
     }
     
+    public void deletePaper(final Long paperId){
+        this.paperEjb.deletePaper(paperId);
+        
+    }
 
 }

@@ -60,7 +60,7 @@
                             <p:dataTable value="#{paperController.getMyPapers(loginBean.username)}" var="mp">
 
                             <p:column headerText="Aktionen">
-                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
+                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#{paperController.deletePaper(mp.id)}" />
                                 <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
                             </p:column>
 
@@ -90,21 +90,21 @@
                             <p:dataTable value="#{paperController.getReviewPapers(loginBean.username)}" var="mpr">
                                 <p:column headerText="Aktionen">
                                     <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
-                                    <p:commandButton icon="ui-icon-check" title="Genehmigen" actionListener="#" />
-                                    <p:commandButton icon="ui-icon-circle-close" title="Ablehnen" actionListener="#" />
+                                    <p:commandButton icon="ui-icon-check" title="Genehmigen" actionListener="#{paperDialogController.passPaper(mpr.id)}" />
+                                    <p:commandButton icon="ui-icon-circle-close" title="Ablehnen" actionListener="#{paperDialogController.rejectPaper(mpr.id)}" />
                                 </p:column>
                                 <p:column headerText="Titel">
                                     #{mpr.title} 
                             </p:column>
                             <p:column headerText="Autor/en">
-                                    
+                                    #{mpr.autors} 
                             </p:column>
                             <p:column headerText="Redner">
-
+                                    #{mpr.speaker.username} 
                             </p:column>
 
                             <p:column headerText="Veröffentlichkeitsdatum">
-
+                                #{mpr.publicationDate}
                             </p:column>
                         </p:dataTable>
                     </h:panelGrid>

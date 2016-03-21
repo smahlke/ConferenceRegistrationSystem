@@ -48,6 +48,17 @@ public class ConferenceEJB implements ConferenceEJBLocal {
         return dtos;
     }
 
+    
+    @PermitAll
+    @Override
+    public List<Conference> getConferenceEntities() {
+
+        List<Conference> conferences = em.createQuery("SELECT c FROM Conference c").getResultList();
+
+        return conferences;
+    }
+    
+    
     @RolesAllowed({"ORGANIZER"})
     @Override
     public void saveConference(ConferenceDto conferenceDto) {

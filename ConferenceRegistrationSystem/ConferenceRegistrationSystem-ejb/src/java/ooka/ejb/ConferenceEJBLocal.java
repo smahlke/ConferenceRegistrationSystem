@@ -44,5 +44,8 @@ public interface ConferenceEJBLocal {
 
     @PermitAll    
     void addConferenceRating(final int rating, final Long conferenceId, final String username);
+    
+    @PermitAll
+    public List<Conference> getConferenceEntities();
 
 }
