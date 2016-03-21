@@ -39,36 +39,26 @@
             <p:tab title="Publikationen">
                 <h:panelGrid columns="2" cellpadding="10">
                     <h:form>
-                        <p:commandButton value="Publikation einreichen" icon="ui-icon-plus" actionListener="#" />
+                        <p:dataTable value="#{paperDialogController.getPaperByConference(conferenceDialogController.conference.entityId)}" var="p">
 
-                        <p:dataTable value="#" var="c">
-
-                            <p:column headerText="Aktionen">
-                                <p:commandButton icon="ui-icon-pencil" title="Bearbeiten" actionListener="#" />
-                                <p:commandButton icon="ui-icon-trash" title="Löschen" actionListener="#" />
+<!--                            <p:column headerText="Aktionen">
                                 <p:commandButton icon="ui-icon-document" title="Download" actionListener="#" />
-                            </p:column>
-
-                            <p:column headerText="Begutachtung offen">
-
-
-                            </p:column>
-
-                            <p:column headerText="Genehmigt">
-
+                            </p:column>-->
+                            <p:column headerText="Status">
+                                #{p.review.description}
                             </p:column>
                             <p:column headerText="Titel">
-
+                                #{p.title}
                             </p:column>
                             <p:column headerText="Autor/en">
-
+                                #{p.autors}
                             </p:column>
                             <p:column headerText="Redner">
-
+                                #{p.speaker}
                             </p:column>
 
                             <p:column headerText="Veröffentlichkeitsdatum">
-
+                                #{p.publicationDate}
                             </p:column>
                         </p:dataTable>
                     </h:form>

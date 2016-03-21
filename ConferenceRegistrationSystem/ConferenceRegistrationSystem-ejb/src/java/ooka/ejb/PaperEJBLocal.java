@@ -6,9 +6,10 @@
 package ooka.ejb;
 
 import java.util.List;
+import javax.annotation.security.PermitAll;
 import javax.ejb.Local;
 import ooka.dto.PaperDto;
-import ooka.model.User;
+import ooka.model.Paper;
 
 /**
  *
@@ -17,14 +18,21 @@ import ooka.model.User;
 @Local
 public interface PaperEJBLocal {
 
+    @PermitAll
     void savePaper(PaperDto paper);
-
-    void deletePaper(long paperId);
-
-    void rejectPaper(long paperId);
-
-    void passPaper(long paperId);
     
+    @PermitAll
+    void deletePaper(long paperId);
+    
+    @PermitAll
+    void rejectPaper(long paperId);
+    
+    @PermitAll
+    void passPaper(long paperId);
+        
+    @PermitAll
     public List<PaperDto> getMyPapers(String username);
- 
+     
+    @PermitAll
+    public List<PaperDto> getPaperDTOsByConference(Long conferenceId);
 }

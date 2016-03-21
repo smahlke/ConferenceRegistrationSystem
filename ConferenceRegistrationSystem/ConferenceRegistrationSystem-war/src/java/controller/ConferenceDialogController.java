@@ -64,7 +64,7 @@ public class ConferenceDialogController {
     }
 
     public void editConference(Long idSet) {
-        this.conference = conferenceEJB.getConferenceById(idSet);
+        this.conference = conferenceEJB.getConferenceDtoById(idSet);
         this.initDialog("conference/workflow/conference");
     }
 
@@ -98,7 +98,7 @@ public class ConferenceDialogController {
     }
 
     public void showInfo(Long conferenceId) {
-        this.conference = conferenceEJB.getConferenceById(conferenceId);
+        this.conference = conferenceEJB.getConferenceDtoById(conferenceId);
         this.initDialog("conference/info");
     }
 

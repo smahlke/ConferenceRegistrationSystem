@@ -87,7 +87,7 @@ public class Conference implements Serializable {
     /**
      * Eingereichte Publikationen.
      */
-    private Set<Paper> paper;
+    private Set<Paper> papers = new HashSet<>();
 
     /**
      * Konferenzveranstalter.
@@ -124,7 +124,7 @@ public class Conference implements Serializable {
 
     @Override
     public String toString() {
-        return "Conference{" + "id=" + id + ", name=" + name + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + ", participants=" + participants + ", maximalParticipants=" + maximalParticipants + ", paper=" + paper + ", organizer=" + organizer + ", reviews=" + reviews + '}';
+        return "Conference{" + "id=" + id + ", name=" + name + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + ", participants=" + participants + ", maximalParticipants=" + maximalParticipants + ", paper=" + papers + ", organizer=" + organizer + ", reviews=" + reviews + '}';
     }
 
     /**
@@ -179,11 +179,11 @@ public class Conference implements Serializable {
     }
 
     public Set<Paper> getPaper() {
-        return paper;
+        return papers;
     }
 
     public void setPaper(Set<Paper> paper) {
-        this.paper = paper;
+        this.papers = paper;
     }
 
     public User getOrganizer() {
@@ -229,6 +229,10 @@ public class Conference implements Serializable {
         return sum / this.ratings.size();
         }
         return 5;
+    }
+    
+    public void addPaper(Paper paper) {
+        this.papers.add(paper);
     }
 
 }

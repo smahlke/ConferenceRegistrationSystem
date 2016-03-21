@@ -130,7 +130,7 @@ public class ConferenceEJB implements ConferenceEJBLocal {
 
     @PermitAll
     @Override
-    public ConferenceDto getConferenceById(final Long id) {
+    public ConferenceDto getConferenceDtoById(final Long id) {
         return this.entityToDatatransferObject(em.find(Conference.class, id));
     }
 
@@ -167,13 +167,19 @@ public class ConferenceEJB implements ConferenceEJBLocal {
     @Override
     public void addConferenceRating(final int rating, final Long conferenceId, final String username) {
 
-        Conference conference = this.em.find(Conference.class, conferenceId);
+        Conference conference = this.getConferenceById(conferenceId);
 
         User user = this.em.find(User.class, username);
 
         conference.addRating(user, Rating.getRatingForValue(rating));
 
         em.merge(conference);
+    }
+    
+    @PermitAll
+    @Override
+    public Conference getConferenceById(final Long id) {
+        return this.em.find(Conference.class, id);
     }
 
 }

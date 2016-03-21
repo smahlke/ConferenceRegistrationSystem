@@ -10,8 +10,25 @@ package ooka.model;
  * @author sebastianmahlke
  */
 public enum Review {
-    PASS,
-    REJECT,
-    IN_PROCESS,
-    NOT_ASSIGNED;
+    
+    PASS("Genehmigt"),
+    REJECT("Abgelehnt"),
+    IN_PROCESS("In Bearbeitung"),
+    NOT_ASSIGNED("Nicht zugewiesen");
+    
+    String description = "";
+    
+    Review(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
 }

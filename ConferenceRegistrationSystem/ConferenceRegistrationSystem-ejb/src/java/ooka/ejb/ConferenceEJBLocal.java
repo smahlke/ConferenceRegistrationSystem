@@ -11,6 +11,7 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Local;
 import ooka.dto.ConferenceDto;
+import ooka.model.Conference;
 
 /**
  *
@@ -27,7 +28,10 @@ public interface ConferenceEJBLocal {
     void saveConference(ConferenceDto conferenceDto);
 
     @PermitAll
-    ConferenceDto getConferenceById(final Long id);
+    ConferenceDto getConferenceDtoById(final Long id);
+    
+    @PermitAll
+    Conference getConferenceById(final Long id);
     
     @RolesAllowed({"ORGANIZER"})
     void deleteConferenceById(final Long id);

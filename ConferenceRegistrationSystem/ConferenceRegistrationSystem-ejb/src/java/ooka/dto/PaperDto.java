@@ -27,6 +27,8 @@ public class PaperDto {
     
     private Long id;
     
+    private Long conferenceId;
+    
     /**
      * Der Titel der Publikation.
      */
@@ -129,6 +131,14 @@ public class PaperDto {
 
     public void setSubmiteDate(Date submiteDate) {
         this.submiteDate = submiteDate;
+    }
+
+    public Long getConferenceId() {
+        return conferenceId;
+    }
+
+    public void setConferenceId(Long conferenceId) {
+        this.conferenceId = conferenceId;
     }
     
     

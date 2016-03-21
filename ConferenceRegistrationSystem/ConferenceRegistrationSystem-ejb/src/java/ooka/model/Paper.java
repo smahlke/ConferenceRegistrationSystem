@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Eine Publikation.
@@ -42,12 +44,13 @@ public class Paper implements Serializable {
     /**
      * Veröffentlichtkeitsdatum.
      */
+    @Temporal(TemporalType.TIMESTAMP)
     private Date publicationDate;
     
     /**
      * Gutachten der Publikation.
      */
-    private Review review;
+    private Review review = Review.NOT_ASSIGNED;
     
     /**
      * Die Publikation.
@@ -58,8 +61,8 @@ public class Paper implements Serializable {
     /**
      * Datum der Einreichung
      */
-
-    private Date submiteDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date submitDate;
     
     public Paper() {
     }
@@ -125,16 +128,14 @@ public class Paper implements Serializable {
         this.data = data;
     }
 
-    public Date getSubmiteDate() {
-        return submiteDate;
+    public Date getSubmitDate() {
+        return submitDate;
     }
 
-    public void setSubmiteDate(Date submiteDate) {
-        this.submiteDate = submiteDate;
+    public void setSubmitDate(Date submiteDate) {
+        this.submitDate = submiteDate;
     }
 
-    
-    
     @Override
     public String toString() {
         return "Paper{" + "id=" + id + ", title=" + title + ", speaker=" + speaker + ", autors=" + autors + ", publicationDate=" + publicationDate + ", review=" + review + ", data=" + data + '}';

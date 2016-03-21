@@ -8,6 +8,7 @@ package controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +44,9 @@ public class PaperDialogController {
     }
     
     
-    public void createPaper(){
+    public void createPaper(Long conferenceId) {
         this.paper = new PaperDto();
+        this.paper.setConferenceId(conferenceId);
         this.initDialog("paper");
     }
     
@@ -62,5 +64,7 @@ public class PaperDialogController {
         RequestContext.getCurrentInstance().openDialog(url, options, null);
     }
     
-    
+    public List<PaperDto> getPaperByConference(Long conferenceId) {
+        return this.paperEJB.getPaperDTOsByConference(conferenceId);
+    }
 }
